@@ -123,7 +123,9 @@ end
 function broadcastFeedback(str1, count, name, str2, color)
   local displayName = name .. (count ~= 1 and "s" or "")
   local parts = {}
-  for _, val in ipairs({ count, displayName, str1, str2 }) do
+  local candidates = { str1, count, displayName, str2 }
+  for i = 1, 4 do
+    local val = candidates[i]
     if val and val ~= "" then
       table.insert(parts, tostring(val))
     end
@@ -218,7 +220,7 @@ function buttonClick_add()
   for _ in pairs(tempList) do
     count = count + 1
   end
-  broadcastFeedback("Added", count, "Object", "from selection")
+  broadcastFeedback("Added", count, "object", "from selection")
 
   -- copy data from tempList to memoryList
   for guid, entry in pairs(tempList) do
@@ -243,7 +245,7 @@ function buttonClick_update()
       }
     end
   end
-  broadcastFeedback("Updated data for", count, "Object")
+  broadcastFeedback("Updated data for", count, "object")
   updateSave()
 end
 
@@ -253,7 +255,7 @@ function buttonClick_remove()
     count = count + 1
     memoryList[guid] = nil
   end
-  broadcastFeedback(nil, count, "Object", "Removed")
+  broadcastFeedback(nil, count, "object", "removed")
 
   updateSave()
   removeAllHighlights()
@@ -270,7 +272,7 @@ function buttonClick_setNew()
       memoryList[obj.guid].lock = obj.getLock()
     end
   end
-  broadcastFeedback("Updated Data for", count, "Object")
+  broadcastFeedback("Updated data for", count, "object")
   updateSave()
   createMemoryActionButtons()
 end
@@ -366,15 +368,15 @@ function buttonClick_place()
   end
 
   if placeCount > 0 then
-    broadcastFeedback(nil, placeCount, "Object", "Placed")
+    broadcastFeedback(nil, placeCount, "object", "placed")
   end
 
   if moveCount > 0 then
-    broadcastFeedback(nil, moveCount, "Object", "Moved")
+    broadcastFeedback(nil, moveCount, "object", "moved")
   end
 
   if placeCount == 0 and moveCount == 0 then
-    broadcastToAll("Bag is empty and no matching objects were found in play")
+    broadcastToAll("Bag is empty and no matching objects were found in play.")
   end
 end
 
@@ -387,7 +389,7 @@ function buttonClick_recall()
       count = count + 1
     end
   end
-  broadcastFeedback(nil, count, "Object", "Recalled")
+  broadcastFeedback(nil, count, "object", "recalled")
 end
 
 function removeAllHighlights()
