@@ -16,6 +16,20 @@ local toggleButtonState               = {
   StarterDecks = false
 }
 
+local CHECKMARK_X                     = {
+  Chapter1     = 79,
+  Chapter2     = 52,
+  Other        = 25,
+  CardsOnly    = -12,
+  StarterDecks = -52
+}
+local CHECKMARK_Y                     = -32
+local CHECKMARK_Z                     = -12
+
+local TB_HEIGHT                       = 170
+local TB_WIDTH_SMALL                  = 515
+local TB_WIDTH_LARGE                  = 760
+
 local BUTTON_SCALE                    = Vector(0.25, 1, 0.25)
 
 -- Size and position information for the three rows of class buttons
@@ -152,8 +166,8 @@ function createButtons()
   createWeaknessButtons()
   createOtherButtons()
   createClearButton()
-  createInvestigatorModeButtons()
-  createContentSelectionButtons()
+  -- These are created last, so that we can reference them by index
+  createToggleButtons()
 end
 
 function createHelpButton()
@@ -277,49 +291,44 @@ function createClearButton()
   })
 end
 
-function createInvestigatorModeButtons()
+function createToggleButtons()
   self.createButton({
     function_owner = self,
     click_function = "setCardsOnlyMode",
     position       = Vector(0.251, 0.11, -0.322),
-    height         = 170,
-    width          = 760,
+    height         = TB_HEIGHT,
+    width          = TB_WIDTH_LARGE,
     scale          = BUTTON_SCALE,
-    font_color     = { 0, 0, 0 },
     color          = getButtonColor(toggleButtonState.CardsOnly)
   })
+
   self.createButton({
     function_owner = self,
     click_function = "setSpawnStarterDecks",
     position       = Vector(0.66, 0.11, -0.322),
-    height         = 170,
-    width          = 760,
+    height         = TB_HEIGHT,
+    width          = TB_WIDTH_LARGE,
     scale          = BUTTON_SCALE,
-    font_color     = { 0, 0, 0 },
     color          = getButtonColor(toggleButtonState.StarterDecks)
   })
-end
 
-function createContentSelectionButtons()
   self.createButton({
     function_owner = self,
     click_function = "toggleChapter1",
-    position       = Vector(-0.721, 0.11, -0.322),
-    height         = 170,
-    width          = 510,
+    position       = Vector(-0.717, 0.11, -0.322),
+    height         = TB_HEIGHT,
+    width          = TB_WIDTH_SMALL,
     scale          = BUTTON_SCALE,
-    font_color     = { 0, 0, 0 },
     color          = getButtonColor(toggleButtonState.Chapter1)
   })
 
   self.createButton({
     function_owner = self,
     click_function = "toggleChapter2",
-    position       = Vector(-0.448, 0.11, -0.322),
-    height         = 170,
-    width          = 510,
+    position       = Vector(-0.446, 0.11, -0.322),
+    height         = TB_HEIGHT,
+    width          = TB_WIDTH_SMALL,
     scale          = BUTTON_SCALE,
-    font_color     = { 0, 0, 0 },
     color          = getButtonColor(toggleButtonState.Chapter2)
   })
 
@@ -327,12 +336,20 @@ function createContentSelectionButtons()
     function_owner = self,
     click_function = "toggleOther",
     position       = Vector(-0.1775, 0.11, -0.322),
-    height         = 170,
-    width          = 510,
+    height         = TB_HEIGHT,
+    width          = TB_WIDTH_SMALL,
     scale          = BUTTON_SCALE,
-    font_color     = { 0, 0, 0 },
     color          = getButtonColor(toggleButtonState.Other)
   })
+end
+
+function recreateToggleButtons()
+  local buttonCount = #self.getButtons()
+  for i = 1, 5 do
+    self.removeButton(buttonCount - i)
+  end
+  createToggleButtons()
+  updateCheckmarkStates()
 end
 
 -- this will be called by the AllCardsBag after indexing
@@ -344,7 +361,7 @@ function createXML()
       attributes = {
         active   = false,
         id       = "helpPanel",
-        position = "-165 -70 -2",
+        position = "-165 -80 -2",
         rotation = "0 0 180",
         height   = 50,
         width    = 107,
@@ -372,6 +389,24 @@ function createXML()
     }
   }
 
+  -- create checkmarks for toggle buttons
+  for key, posX in pairs(CHECKMARK_X) do
+    table.insert(xmlTable, {
+      tag = "Text",
+      attributes = {
+        active    = toggleButtonState[key],
+        text      = "✓",
+        rotation  = "0 0 180",
+        fontSize  = 75,
+        fontColor = "#000000FF",
+        color     = "#000000FF",
+        id        = "checkmark_" .. key,
+        scale     = "0.1 0.1 1",
+        position  = posX .. " " .. CHECKMARK_Y .. " " .. CHECKMARK_Z
+      }
+    })
+  end
+
   helpVisibleToPlayers = {}
   self.UI.setXmlTable(xmlTable)
 end
@@ -395,62 +430,38 @@ function updateHelpVisibility()
   self.UI.setAttribute("helpPanel", "active", string.len(visibility) > 0)
 end
 
+-- Hard-coded click functions
 function setSpawnStarterDecks()
   toggleButtonState.StarterDecks = true
   toggleButtonState.CardsOnly    = false
-  editButtonState("setSpawnStarterDecks", toggleButtonState.StarterDecks)
-  editButtonState("setCardsOnlyMode", toggleButtonState.CardsOnly)
+  recreateToggleButtons()
 end
 
 function setCardsOnlyMode()
   toggleButtonState.StarterDecks = false
   toggleButtonState.CardsOnly    = true
-  editButtonState("setSpawnStarterDecks", toggleButtonState.StarterDecks)
-  editButtonState("setCardsOnlyMode", toggleButtonState.CardsOnly)
+  recreateToggleButtons()
 end
 
 function toggleChapter1()
   toggleButtonState.Chapter1 = not toggleButtonState.Chapter1
-  editButtonState("toggleChapter1", toggleButtonState.Chapter1)
+  recreateToggleButtons()
 end
 
 function toggleChapter2()
   toggleButtonState.Chapter2 = not toggleButtonState.Chapter2
-  editButtonState("toggleChapter2", toggleButtonState.Chapter2)
+  recreateToggleButtons()
 end
 
 function toggleOther()
   toggleButtonState.Other = not toggleButtonState.Other
-  editButtonState("toggleOther", toggleButtonState.Other)
+  recreateToggleButtons()
 end
 
-function editButtonState(cf, state)
-  for _, buttonData in ipairs(self.getButtons()) do
-    if buttonData.click_function == cf then
-      self.editButton({
-        index = buttonData.index,
-        color = getButtonColor(state),
-        label = getButtonLabel(state, buttonData.width)
-      })
-      return
-    end
+function updateCheckmarkStates()
+  for key, _ in pairs(CHECKMARK_X) do
+    self.UI.setAttribute("checkmark_" .. key, "active", toggleButtonState[key])
   end
-end
-
-function toggleCheckmark(key)
-  local checkX = toggleButtonState.StarterDecks and 0.52 or 0.11
-  self.createButton({
-    function_owner = self,
-    label          = "✓",
-    click_function = "doNothing",
-    position       = Vector(checkX, 0.11, -0.317),
-    height         = 0,
-    width          = 0,
-    font_size      = 300,
-    scale          = Vector(0.1, 1, 0.1),
-    font_color     = { 0, 0, 0 },
-    color          = { 1, 1, 1 }
-  })
 end
 
 -- Clears the table and updates positions based on scale (should be called before ANY card placement)
