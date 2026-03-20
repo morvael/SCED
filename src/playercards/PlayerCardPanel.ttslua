@@ -6,7 +6,15 @@ local SpawnBag                         = require("playercards/SpawnBag")
 local WebInterface                     = require("deckbuilder/WebInterface")
 
 local lastWeaknessTrait                = "Madness"
+local toggleButtonState                = {
+  Chapter1     = true,
+  Chapter2     = true,
+  Other        = true,
 
+  -- these two are mutually exclusive
+  CardsOnly    = true,
+  StarterDecks = false
+}
 -- Size and position information for the three rows of class buttons
 local CIRCLE_BUTTON_SIZE               = 250
 local CLASS_BUTTONS_X_OFFSET           = 0.1325
@@ -84,7 +92,11 @@ local spawnStarterDecks                = false
 local helpVisibleToPlayers             = {}
 
 function onSave()
-  return JSON.encode({ spawnBagState = SpawnBag.getStateForSave() })
+  return JSON.encode({
+    lastWeaknessTrait = lastWeaknessTrait,
+    spawnBagState     = SpawnBag.getStateForSave(),
+    toggleButtonState = toggleButtonState
+  })
 end
 
 function onLoad(savedData)
@@ -93,7 +105,11 @@ function onLoad(savedData)
     if saveState.spawnBagState ~= nil then
       SpawnBag.loadFromSave(saveState.spawnBagState)
     end
+
+    lastWeaknessTrait = saveState.lastWeaknessTrait or lastWeaknessTrait
+    toggleButtonState = saveState.toggleButtonState or toggleButtonState
   end
+
   buildExcludedWeaknessList()
   createButtons()
 end
@@ -120,8 +136,8 @@ function createButtons()
   createWeaknessButtons()
   createOtherButtons()
   createClearButton()
-  -- Create investigator mode buttons last so the indexes are set when we need to update them
   createInvestigatorModeButtons()
+  createContentSelectionButtons()
 end
 
 function createHelpButton()
@@ -147,8 +163,9 @@ function createInvestigatorButtons()
   local buttonPos = INVESTIGATOR_ROW_START:copy()
   for _, class in ipairs(CLASS_LIST) do
     invButtonParams.click_function = "spawnInvestigators" .. class
-    invButtonParams.position = buttonPos
+    invButtonParams.position       = buttonPos
     self.createButton(invButtonParams)
+
     buttonPos.x = buttonPos.x + CLASS_BUTTONS_X_OFFSET
     self.setVar(invButtonParams.click_function, function() spawnInvestigatorGroup(class) end)
   end
@@ -278,6 +295,38 @@ function createInvestigatorModeButtons()
   })
 end
 
+function createContentSelectionButtons()
+  self.createButton({
+    function_owner = self,
+    click_function = "toggleChapter1",
+    position       = Vector(0.251, 0.1, -0.322),
+    height         = 170,
+    width          = 760,
+    scale          = Vector(0.25, 1, 0.25),
+    color          = spawnStarterDecks and TRANSPARENT or STARTER_DECK_MODE_SELECTED_COLOR
+  })
+
+  self.createButton({
+    function_owner = self,
+    click_function = "toggleChapter2",
+    position       = Vector(0.251, 0.1, -0.322),
+    height         = 170,
+    width          = 760,
+    scale          = Vector(0.25, 1, 0.25),
+    color          = spawnStarterDecks and TRANSPARENT or STARTER_DECK_MODE_SELECTED_COLOR
+  })
+
+  self.createButton({
+    function_owner = self,
+    click_function = "toggleOther",
+    position       = Vector(0.251, 0.1, -0.322),
+    height         = 170,
+    width          = 760,
+    scale          = Vector(0.25, 1, 0.25),
+    color          = spawnStarterDecks and TRANSPARENT or STARTER_DECK_MODE_SELECTED_COLOR
+  })
+end
+
 -- this will be called by the AllCardsBag after indexing
 function createXML()
   -- basic XML for the help button
@@ -362,12 +411,7 @@ function setCardsOnlyMode()
 end
 
 function updateStarterModeButtons()
-  local buttonCount = #self.getButtons()
-  -- Buttons are 0-indexed, so the last three are -1, -2, and -3 from the size
-  self.removeButton(buttonCount - 1)
-  self.removeButton(buttonCount - 2)
-  self.removeButton(buttonCount - 3)
-  createInvestigatorModeButtons()
+  -- TODO
 end
 
 -- Clears the table and updates positions based on scale (should be called before ANY card placement)
