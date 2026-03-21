@@ -526,38 +526,40 @@ end
 -- investigator cards and minicards as well as the signature cards.
 ---@param groupName string Name of the group to spawn, matching a key in InvestigatorPanelData
 function spawnInvestigators(groupName)
-  local mainData = INVESTIGATOR_GROUPS[groupName]
-  local subData = INVESTIGATORS
-
   -- handling for custom investigators
-  if groupName == "Other" then
-    local customData = AllCardsBagApi.getCustomInvestigatorData()
-    mainData         = customData.InvestigatorGroup
-    subData          = customData.InvestigatorSubdata
-  end
+  local customData = AllCardsBagApi.getCustomInvestigatorData()
 
-  if mainData == nil or subData == nil then
-    printToAll("No investigator data for '" .. groupName .. "' yet")
+  -- combine tables
+  local mainData   = TableLib.concat(INVESTIGATOR_GROUPS[groupName], customData.InvestigatorGroup)
+  local subData    = TableLib.merge(INVESTIGATORS, customData.InvestigatorSubdata)
+
+  if next(mainData) == nil or next(subData) == nil then
+    printToAll("No investigator data for selection available.")
     return
   end
 
-  local col = 0
-  local row = 1
+  local col               = 0
+  local row               = 1
   local investigatorCount = #mainData
-  local position = getInvestigatorRowStartPos(investigatorCount, row)
+  local position          = getInvestigatorRowStartPos(investigatorCount, row)
 
   for _, investigatorName in ipairs(mainData) do
-    col = col + 1
-    if col > INVESTIGATOR_MAX_COLS then
-      col = 0
-      row = row + 1
-      position = getInvestigatorRowStartPos(investigatorCount, row)
-    end
+    -- check if the first card for this investigator passes the cycle filter
+    local investigatorData = subData[investigatorName]
+    local md = AllCardsBagApi.getCardById(investigatorData.cards[1]).metadata
+    if passesChapterFilter(md) then
+      col = col + 1
+      if col > INVESTIGATOR_MAX_COLS then
+        col      = 0
+        row      = row + 1
+        position = getInvestigatorRowStartPos(investigatorCount, row)
+      end
 
-    for _, spawnSpec in ipairs(buildInvestigatorSpawnSpec(investigatorName, subData[investigatorName], position)) do
-      SpawnBag.spawn(spawnSpec)
+      for _, spawnSpec in ipairs(buildInvestigatorSpawnSpec(investigatorName, investigatorData, position)) do
+        SpawnBag.spawn(spawnSpec)
+      end
+      position:add(investigatorPositionShiftCol)
     end
-    position:add(investigatorPositionShiftCol)
   end
   return row
 end
@@ -616,18 +618,24 @@ end
 -- investigators in the given group.
 ---@param class string Name of the group to spawn, matching a key in InvestigatorPanelData
 function spawnStarters(class)
-  local col = 1
-  local row = 1
+  local col               = 1
+  local row               = 1
   local investigatorCount = #INVESTIGATOR_GROUPS[class]
-  local position = getInvestigatorRowStartPos(investigatorCount, row)
+  local position          = getInvestigatorRowStartPos(investigatorCount, row)
+
   for _, investigatorName in ipairs(INVESTIGATOR_GROUPS[class]) do
-    spawnStarterDeck(investigatorName, INVESTIGATORS[investigatorName], position, class)
-    position:add(investigatorPositionShiftCol)
-    col = col + 1
-    if col > INVESTIGATOR_MAX_COLS then
-      col = 1
-      row = row + 1
-      position = getInvestigatorRowStartPos(investigatorCount, row)
+    -- check if the first card for this investigator passes the cycle filter
+    local investigatorData = INVESTIGATORS[investigatorName]
+    local md = AllCardsBagApi.getCardById(investigatorData.cards[1]).metadata
+    if passesChapterFilter(md) then
+      spawnStarterDeck(investigatorName, investigatorData, position, class)
+      position:add(investigatorPositionShiftCol)
+      col = col + 1
+      if col > INVESTIGATOR_MAX_COLS then
+        col = 1
+        row = row + 1
+        position = getInvestigatorRowStartPos(investigatorCount, row)
+      end
     end
   end
 end

@@ -424,8 +424,8 @@ function buildSupplementalIndexes()
 
       cycleName = cleanCycleName(cycleName)
 
-      -- check if card is not from an official cycle
-      if not CHAPTER_MAP[cycleName] then
+      -- check if card is not from an official cycle (TODO)
+      if not CHAPTER_MAP[cycleName] or CHAPTER_MAP[cycleName] == 2 then
         -- maybe add to special investigator / minicard index
         if md.type == "Investigator" then
           writeToNestedTable(customInvestigatorData, "InvestigatorGroup", cardId)
@@ -652,7 +652,7 @@ function getCustomInvestigatorData()
   if not isIndexReady() then return {} end
 
   return {
-    InvestigatorGroup = customInvestigatorData.InvestigatorGroup or {},
+    InvestigatorGroup   = customInvestigatorData.InvestigatorGroup or {},
     InvestigatorSubdata = customInvestigatorData.InvestigatorSubdata or {}
   }
 end
