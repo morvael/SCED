@@ -533,9 +533,10 @@ end
 
 -- Removes common suffixes from IDs
 function getBaseId(id)
-  -- First pattern matches -m, -p, -c, or -t at the end
-  -- Second pattern matches -pb, -pf at the end
-  local patterns = { "%-[mpct]$", "%-p[fb]$" }
+  -- 1. %-[mpct]$ : Matches -m, -p, -c, or -t
+  -- 2. %-p[fb]$  : Matches -pb or -pf
+  -- 3. %-b%d$    : Matches -b followed by any digit (e.g., -b1, -b2)
+  local patterns = { "%-[mpct]$", "%-p[fb]$", "%-b%d$" }
   local changed  = true
   local baseId   = id
 
