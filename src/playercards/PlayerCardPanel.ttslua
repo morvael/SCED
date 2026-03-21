@@ -3,6 +3,7 @@ require("playercards/PlayerCardPanelData")
 
 local AllCardsBagApi                  = require("playercards/AllCardsBagApi")
 local SpawnBag                        = require("playercards/SpawnBag")
+local TableLib                        = require("util/TableLib")
 local WebInterface                    = require("deckbuilder/WebInterface")
 
 local lastWeaknessTrait               = "Madness"
@@ -136,12 +137,20 @@ function getButtonColor(state)
   return state and TRANSLUCENT or TRANSPARENT
 end
 
-function getButtonLabel(state, width)
-  if width == 510 then
-    return state and "✓               " or ""
-  else
-    return state and "✓                      " or ""
+function passesChapterFilter(md)
+  if md.chapter == 1 then
+    return toggleButtonState.Chapter1
+  elseif md.chapter == 2 then
+    return toggleButtonState.Chapter2
   end
+  return toggleButtonState.Other
+end
+
+function filterListForCycle(list)
+  return TableLib.filter(list, function(id)
+    local md = AllCardsBagApi.getCardById(id).metadata
+    return passesChapterFilter(md)
+  end)
 end
 
 -- Build a list of non-basic weaknesses which should be excluded from the last weakness set,
@@ -215,7 +224,7 @@ function createLevelZeroButtons()
     l0ButtonParams.position = buttonPos
     self.createButton(l0ButtonParams)
     buttonPos.x = buttonPos.x + CLASS_BUTTONS_X_OFFSET
-    self.setVar(l0ButtonParams.click_function, function(_, _, _) spawnClassCards(class, false) end)
+    self.setVar(l0ButtonParams.click_function, function() spawnClassCards(class, false) end)
   end
 end
 
@@ -517,8 +526,8 @@ function spawnInvestigators(groupName)
   -- handling for custom investigators
   if groupName == "Other" then
     local customData = AllCardsBagApi.getCustomInvestigatorData()
-    mainData = customData.InvestigatorGroup
-    subData = customData.InvestigatorSubdata
+    mainData         = customData.InvestigatorGroup
+    subData          = customData.InvestigatorSubdata
   end
 
   if mainData == nil or subData == nil then
@@ -548,14 +557,11 @@ function spawnInvestigators(groupName)
 end
 
 function getInvestigatorRowStartPos(investigatorCount, row)
-  local rowOffset = Vector(investigatorPositionShiftRow):scale(row - 1)
+  local rowOffset          = Vector(investigatorPositionShiftRow):scale(row - 1)
   local investigatorsInRow = math.min(investigatorCount - INVESTIGATOR_MAX_COLS * (row - 1), INVESTIGATOR_MAX_COLS)
-  local colOffset = Vector(investigatorPositionShiftCol):scale((INVESTIGATOR_MAX_COLS - investigatorsInRow) / 2)
-
-  local rowStart = Vector(startPositions.investigator)
-  rowStart:add(rowOffset)
-  rowStart:add(colOffset)
-  return rowStart
+  local colOffset          = Vector(investigatorPositionShiftCol):scale((INVESTIGATOR_MAX_COLS - investigatorsInRow) / 2)
+  local rowStart           = Vector(startPositions.investigator)
+  return rowStart + rowOffset + colOffset
 end
 
 -- Creates the spawn spec for the investigator's signature cards.
@@ -680,7 +686,7 @@ end
 function placeClassCards(cardClass, isUpgraded)
   if not AllCardsBagApi.isIndexReady() then return end
 
-  local cardIdList = AllCardsBagApi.getCardsByClassAndLevel(cardClass, isUpgraded)
+  local cardIdList = filterListForCycle(AllCardsBagApi.getCardsByClassAndLevel(cardClass, isUpgraded))
 
   local skillList = {}
   local eventList = {}
@@ -695,6 +701,7 @@ function placeClassCards(cardClass, isUpgraded)
       table.insert(assetList, cardId)
     end
   end
+
   local groupPos = Vector(startPositions.classCards)
   if #skillList > 0 then
     SpawnBag.spawn({
@@ -707,6 +714,7 @@ function placeClassCards(cardClass, isUpgraded)
     })
     groupPos.z = groupPos.z + math.ceil(#skillList / CARD_MAX_COLS) * cardRowOffset + cardGroupOffset
   end
+
   if #eventList > 0 then
     SpawnBag.spawn({
       name       = cardClass .. "event" .. (isUpgraded and "upgraded" or "basic"),
@@ -718,6 +726,7 @@ function placeClassCards(cardClass, isUpgraded)
     })
     groupPos.z = groupPos.z + math.ceil(#eventList / CARD_MAX_COLS) * cardRowOffset + cardGroupOffset
   end
+
   if #assetList > 0 then
     SpawnBag.spawn({
       name       = cardClass .. "asset" .. (isUpgraded and "upgraded" or "basic"),
@@ -736,12 +745,13 @@ function spawnCycle(cycle)
   if not AllCardsBagApi.isIndexReady() then return end
 
   -- sort custom cards and include cards without level
-  local sortByMetadata = false
+  local sortByMetadata      = false
   local includeNoLevelCards = false
   if cycle == "Other" then
-    sortByMetadata = true
+    sortByMetadata      = true
     includeNoLevelCards = true
   end
+
   local cardList = AllCardsBagApi.getCardsByCycle(cycle, sortByMetadata, includeNoLevelCards)
 
   prepareToPlaceCards()
@@ -779,7 +789,7 @@ function spawnBonded()
   prepareToPlaceCards()
   SpawnBag.spawn({
     name       = "bonded",
-    cards      = AllCardsBagApi.getBondedCardList(),
+    cards      = filterListForCycle(AllCardsBagApi.getBondedCardList()),
     globalPos  = self.positionToWorld(startPositions.classCards),
     rotation   = FACE_UP_ROTATION,
     spread     = true,
@@ -791,7 +801,7 @@ function spawnUpgradeSheets()
   if not AllCardsBagApi.isIndexReady() then return end
 
   prepareToPlaceCards()
-  local upgradeSheetList = AllCardsBagApi.getUpgradeSheetList()
+  local upgradeSheetList = filterListForCycle(AllCardsBagApi.getUpgradeSheetList())
   SpawnBag.spawn({
     name       = "upgradeSheets",
     cards      = upgradeSheetList,
@@ -845,12 +855,17 @@ function spawnWeaknesses()
   local otherWeaknessList = {}
   for _, id in ipairs(AllCardsBagApi.getUniqueWeaknesses()) do
     local cardMetadata = AllCardsBagApi.getCardById(id).metadata
-    if cardMetadata.basicWeaknessCount ~= nil and cardMetadata.basicWeaknessCount > 0 then
-      table.insert(basicWeaknessList, id)
-    elseif excludedNonBasicWeaknesses[id] == nil and customExcludeList[id] == nil then
-      table.insert(otherWeaknessList, id)
+    if passesChapterFilter(cardMetadata) then
+      if cardMetadata.basicWeaknessCount ~= nil and cardMetadata.basicWeaknessCount > 0 then
+        table.insert(basicWeaknessList, id)
+      elseif excludedNonBasicWeaknesses[id] == nil and customExcludeList[id] == nil then
+        table.insert(otherWeaknessList, id)
+      end
     end
   end
+
+  local evolvedWeaknessList = filterListForCycle(AllCardsBagApi.getEvolvedWeaknesses())
+
   local groupPos = Vector(startPositions.classCards)
   SpawnBag.spawn({
     name       = "basicWeaknesses",
@@ -862,7 +877,6 @@ function spawnWeaknesses()
   })
   groupPos.z = groupPos.z + math.ceil(#basicWeaknessList / CARD_MAX_COLS) * cardRowOffset + cardGroupOffset
 
-  local evolvedWeaknessList = AllCardsBagApi.getEvolvedWeaknesses()
   SpawnBag.spawn({
     name       = "evolvedWeaknesses",
     cards      = evolvedWeaknessList,

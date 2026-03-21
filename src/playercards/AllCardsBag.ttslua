@@ -51,41 +51,46 @@ local CLASS_LIST             = {
   "Survivor",
   "Neutral"
 }
-local OFFICIAL_CYCLE_MAP     = {
+local CHAPTER_MAP            = {
+  -- core / starters
+  ["core"]                              = 1,
+  ["revised core"]                      = 1,
+  ["investigator packs"]                = 1,
+  ["core 2026"]                         = 2,
+  ["starters 2026"]                     = 2,
+
   -- campaigns
-  ["investigator packs"]                = true,
-  ["core"]                              = true,
-  ["revised core"]                      = true,
-  ["the dunwich legacy"]                = true,
-  ["the path to carcosa"]               = true,
-  ["the forgotten age"]                 = true,
-  ["the circle undone"]                 = true,
-  ["the dream-eaters"]                  = true,
-  ["the innsmouth conspiracy"]          = true,
-  ["edge of the earth"]                 = true,
-  ["the scarlet keys"]                  = true,
-  ["the feast of hemlock vale"]         = true,
-  ["the drowned city"]                  = true,
-  ["core 2026"]                         = true,
-  --["starters 2026"]                   = true,
+  ["the dunwich legacy"]                = 1,
+  ["the path to carcosa"]               = 1,
+  ["the forgotten age"]                 = 1,
+  ["the circle undone"]                 = 1,
+  ["the dream-eaters"]                  = 1,
+  ["the innsmouth conspiracy"]          = 1,
+  ["edge of the earth"]                 = 1,
+  ["the scarlet keys"]                  = 1,
+  ["the feast of hemlock vale"]         = 1,
+  ["the drowned city"]                  = 1,
+
   -- standalones / parallels etc.
-  ["standalone"]                        = true,
-  ["the blob that ate everything else"] = true,
-  ["all or nothing"]                    = true,
-  ["bad blood"]                         = true,
-  ["read or die"]                       = true,
-  ["by the book"]                       = true,
-  ["red tide rising"]                   = true,
-  ["on the road again"]                 = true,
-  ["laid to rest"]                      = true,
-  ["path of the righteous"]             = true,
-  ["relics of the past"]                = true,
-  ["hunting for answers"]               = true,
-  ["pistols and pearls"]                = true,
-  ["aura of faith"]                     = true,
-  ["enthralling encore"]                = true,
-  ["beta"]                              = true,
-  ["promo"]                             = true
+  ["standalone"]                        = 1,
+  ["the blob that ate everything else"] = 1,
+  ["all or nothing"]                    = 1,
+  ["bad blood"]                         = 1,
+  ["read or die"]                       = 1,
+  ["by the book"]                       = 1,
+  ["red tide rising"]                   = 1,
+  ["on the road again"]                 = 1,
+  ["laid to rest"]                      = 1,
+  ["path of the righteous"]             = 1,
+  ["relics of the past"]                = 1,
+  ["hunting for answers"]               = 1,
+  ["pistols and pearls"]                = 1,
+  ["aura of faith"]                     = 1,
+  ["enthralling encore"]                = 1,
+
+  -- special stuff
+  ["beta"]                              = 0,
+  ["promo"]                             = 0
 }
 -- conversion tables to simplify type sorting
 local TYPE_TO_VALUE          = {
@@ -272,6 +277,10 @@ function addCardToIndex(cardData)
   -- store the ID (in case the ZoopGUID was used)
   cardMetadata.id = id
 
+  -- track the chapter of the card (default to 0)
+  cardMetadata.chapter = cardMetadata.cycle and CHAPTER_MAP[cleanCycleName(cardMetadata.cycle)] or 0
+
+  -- initialize index entry
   local indexData = { data = cardData, metadata = cardMetadata }
 
   -- The following code handles data combining:
@@ -330,6 +339,23 @@ function addCardToIndex(cardData)
       cardIdIndex[alternateId] = indexData
     end
   end
+end
+
+function cleanCycleName(cycleName)
+  if cycleName then
+    cycleName = string_lower(cycleName)
+
+    -- remove "return to " from cycle names
+    cycleName = cycleName:gsub("return to ", "")
+
+    -- override cycle name for night of the zealot
+    cycleName = cycleName:gsub("the night of the zealot", "core")
+  else
+    -- track cards without defined cycle (should only be fan-made cards)
+    cycleName = "other"
+  end
+
+  return cycleName
 end
 
 -- Creates the supplemental indexes for classes, weaknesses etc.
@@ -396,24 +422,10 @@ function buildSupplementalIndexes()
         end
       end
 
-      if cycleName then
-        cycleName = string_lower(cycleName)
-
-        -- remove "return to " from cycle names
-        cycleName = cycleName:gsub("return to ", "")
-
-        -- override cycle name for night of the zealot
-        cycleName = cycleName:gsub("the night of the zealot", "core")
-      else
-        -- track cards without defined cycle (should only be fan-made cards)
-        cycleName = "other"
-      end
+      cycleName = cleanCycleName(cycleName)
 
       -- check if card is not from an official cycle
-      if OFFICIAL_CYCLE_MAP[cycleName] ~= true then
-        -- overwrite the cycle for easier handling by the playercard panel
-        cycleName = "other"
-
+      if not CHAPTER_MAP[cycleName] then
         -- maybe add to special investigator / minicard index
         if md.type == "Investigator" then
           writeToNestedTable(customInvestigatorData, "InvestigatorGroup", cardId)

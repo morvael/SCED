@@ -83,8 +83,8 @@ do
   --    metadata: Table of parsed metadata
   function AllCardsBagApi.getCardsByCycle(cycle, sortByMetadata, includeNoLevelCards)
     return TableLib.copy(getAllCardsBag().call("getCardsByCycle", {
-      cycle = cycle,
-      sortByMetadata = sortByMetadata,
+      cycle               = cycle,
+      sortByMetadata      = sortByMetadata,
       includeNoLevelCards = includeNoLevelCards
     }))
   end
