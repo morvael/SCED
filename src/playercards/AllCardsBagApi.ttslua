@@ -122,5 +122,10 @@ do
     return TableLib.copy(getAllCardsBag().call("getUpgradeSheetList"))
   end
 
+  -- Expects a table like { [1] = true, [2] = false, [0] = true }
+  function AllCardsBagApi.getFilteredContent(activeChapters)
+    return TableLib.copy(getAllCardsBag().call("getFilteredContent", activeChapters))
+  end
+
   return AllCardsBagApi
 end

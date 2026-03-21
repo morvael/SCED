@@ -451,6 +451,42 @@ function buildSupplementalIndexes()
   end
 end
 
+function toTitleCase(str)
+  local exclusions = {
+    ["the"] = true,
+    ["of"]  = true,
+    ["or"]  = true,
+    ["to"]  = true,
+    ["and"] = true,
+    ["in"]  = true
+  }
+  local wordCount = 0
+
+  return (str:gsub("(%a)([%w_']*)", function(first, rest)
+    wordCount = wordCount + 1
+    local word = first:lower() .. rest:lower()
+
+    -- Capitalize if it's the first word OR not in the exclusion list
+    if wordCount == 1 or not exclusions[word] then
+      return first:upper() .. rest:lower()
+    end
+    return word
+  end))
+end
+
+-- Expects a table like { [1] = true, [2] = false, [0] = true }
+function getFilteredContent(activeChapters)
+  local matches = {}
+
+  for name, chapter in pairs(CHAPTER_MAP) do
+    if activeChapters[chapter] then
+      table.insert(matches, toTitleCase(name))
+    end
+  end
+
+  return matches
+end
+
 -- collect the sorting data and cache it
 function collectSortingData()
   for _, card in pairs(cardIdIndex) do
