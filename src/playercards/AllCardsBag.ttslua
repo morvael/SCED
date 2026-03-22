@@ -553,8 +553,8 @@ function metadataSortFunction(id1, id2)
     return string.len(id1) < string.len(id2)
   end
 
-  local len1 = string.len(id1)
-  local len2 = string.len(id2)
+  local len1 = string.len(base1)
+  local len2 = string.len(base2)
 
   -- if these cards have manually assigned IDs (5 digit length) instead of Zoop GUIDs, use them for sorting
   if len1 == 5 and len2 == 5 then
@@ -568,7 +568,7 @@ function metadataSortFunction(id1, id2)
     return false
   end
 
-  return generalizedCardComparator(id1, id2, { "class", "cardType", "level", "name" })
+  return generalizedCardComparator(base1, base2, { "class", "cardType", "level", "name" })
 end
 
 function sortIndexes()
