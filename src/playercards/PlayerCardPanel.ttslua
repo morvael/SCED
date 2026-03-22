@@ -421,7 +421,7 @@ function createXML()
   local activeChapters = {
     [0] = toggleButtonState.Other,
     [1] = toggleButtonState.Chapter1,
-    [2] = toggleButtonState.Chapter2,
+    [2] = toggleButtonState.Chapter2
   }
   local activeItems = AllCardsBagApi.getFilteredContent(activeChapters)
 
@@ -434,17 +434,18 @@ function createXML()
         {
           tag = "Button",
           attributes = {
-            text      = name,
-            id        = "item_" .. i,
-            onClick   = "xmlClick_spawnContent",
-            font      = "font_teutonic-arkham",
-            content   = name,
-            height    = 70,
-            width     = 600,
-            fontSize  = 55,
-            outline   = "black",
-            color     = "#C69668CC",
-            textColor = "#000000"
+            text        = name,
+            id          = "item_" .. i,
+            onClick     = "xmlClick_spawnContent",
+            font        = "font_teutonic-arkham",
+            content     = name,
+            height      = 70,
+            width       = 600,
+            fontSize    = 54,
+            outline     = "black",
+            outlineSize = "2 2",
+            color       = "#C69668CC",
+            textColor   = "#000000"
           }
         }
       }
