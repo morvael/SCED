@@ -22,8 +22,8 @@ do
   -- or the indexes are rebuilt, which will refresh the list to include all weaknesses.
   ---@param count number Number of weaknesses
   ---@param restrictions table Additional restrictions:
-  ---  class string Class to restrict weakness to
-  ---  standalone boolean Whether 'Campaign only' weaknesses should be exluded
+  ---  class? string Class to restrict weakness to
+  ---  standalone? boolean Whether 'Campaign only' weaknesses should be exluded
   ---  traits? string Trait(s) to use as filter
   ---@return table: Table with IDs of the selected weaknesses
   function AllCardsBagApi.getRandomWeaknessIds(count, restrictions)

@@ -4,7 +4,9 @@ local TableLib                        = require("util/TableLib")
 local WebInterface                    = require("deckbuilder/WebInterface")
 
 local lastWeaknessTrait               = "Madness"
-local toggleButtonState               = {
+
+-- Intentionally global!
+toggleButtonState               = {
   Chapter1     = true,
   Chapter2     = true,
   Other        = true,

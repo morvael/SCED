@@ -1024,42 +1024,61 @@ end
 -- Constructs a list of available basic weaknesses by starting with the full pool of basic
 -- weaknesses then removing any which are currently in the play or deck construction areas
 ---@param restrictions? table Additional restrictions:
----  class string Class to restrict weakness to
----  standalone boolean Whether 'Campaign only' weaknesses should be exluded
+---  class? string Class to restrict weakness to
+---  standalone? boolean Whether 'Campaign only' weaknesses should be exluded
 ---  traits? string Trait(s) to use as filter
 ---@return table: Array of weakness IDs which are valid to choose from
 function buildAvailableWeaknesses(restrictions)
   restrictions = restrictions or {}
-  local weaknessesInPlay = {}
+
+  -- gather additional chapter restrictions
+  local panel = GUIDReferenceApi.getObjectByOwnerAndType("Mythos", "PlayerCardPanel")
+  if panel then
+    local state = panel.getVar("toggleButtonState")
+    restrictions.chapter = {
+      [0] = state.Other,
+      [1] = state.Chapter1,
+      [2] = state.Chapter2
+    }
+  end
+
+  local inPlay = {}
   for _, object in ipairs(getObjects()) do
     if object.type == "Deck" then
       for _, cardData in ipairs(object.getData().ContainedObjects) do
-        incrementWeaknessCount(weaknessesInPlay, JSON.decode(cardData.GMNotes))
+        incrementWeaknessCount(inPlay, JSON.decode(cardData.GMNotes))
       end
     elseif object.type == "Card" then
-      incrementWeaknessCount(weaknessesInPlay, JSON.decode(object.getGMNotes()))
+      incrementWeaknessCount(inPlay, JSON.decode(object.getGMNotes()))
     end
   end
 
   local availableWeaknesses = {}
   for _, weaknessId in ipairs(basicWeaknessList) do
-    if (weaknessesInPlay[weaknessId] ~= nil and weaknessesInPlay[weaknessId] > 0) then
-      weaknessesInPlay[weaknessId] = weaknessesInPlay[weaknessId] - 1
+    if inPlay[weaknessId] and inPlay[weaknessId] > 0 then
+      inPlay[weaknessId] = inPlay[weaknessId] - 1
     else
       local eligible = true
+      local card     = cardIdIndex[weaknessId] or {}
+      local md       = card.metadata or {}
+
+      -- filter for correct chapter
+      if restrictions.chapter then
+        if not restrictions.chapter[md.chapter] then
+          eligible = false
+        end
+      end
 
       -- disable 'Campaign only' weaknesses in standalone mode
       if restrictions.standalone then
-        local card = cardIdIndex[weaknessId]
-        if card.metadata.modeRestriction == "Campaign" then
+        if md.modeRestriction == "Campaign" then
           eligible = false
         end
       end
 
       -- disable class restricted weaknesses
       if restrictions.class then
-        local card = cardIdIndex[weaknessId]
-        if card.metadata.classRestriction and card.metadata.classRestriction ~= restrictions.class then
+        if md.classRestriction and md.classRestriction ~= restrictions.class then
           eligible = false
         end
       end
@@ -1083,9 +1102,8 @@ function buildAvailableWeaknesses(restrictions)
         local match = false
 
         -- make sure the trait is present on the weakness
-        local card = cardIdIndex[weaknessId]
         for _, allowedTrait in ipairs(allowedTraits) do
-          if string.contains(string_lower(card.metadata.traits), allowedTrait) then
+          if string.contains(string_lower(md.traits), allowedTrait) then
             match = true
             break
           end
