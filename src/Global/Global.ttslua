@@ -2496,11 +2496,11 @@ function updateDownloadItemList(skipAuthorUpdate)
           tag = "Panel",
           attributes = { id = "panel" .. i },
           children = {
-            tag = 'Text',
-            value = v.name,
+            tag        = 'Text',
+            value      = v.name,
             attributes = {
-              id = contentToShow .. "_" .. i,
-              onClick = 'onClick_select',
+              id        = contentToShow .. "_" .. i,
+              onClick   = 'onClick_select',
               alignment = 'MiddleLeft'
             }
           }

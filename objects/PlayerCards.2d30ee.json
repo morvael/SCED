@@ -19,21 +19,9 @@
     },
     "ImageScalar": 1,
     "ImageSecondaryURL": "",
-    "ImageURL": "https://steamusercontent-a.akamaihd.net/ugc/2342503777940937086/92256BDF101E6272AD1E3F5F0043D311DF708F03/",
+    "ImageURL": "https://steamusercontent-a.akamaihd.net/ugc/11910679705282911738/11F585F994A1A1244378F71FC967C8675281D2B6/",
     "WidthScale": 0
   },
-  "CustomUIAssets": [
-    {
-      "Name": "OtherCards",
-      "Type": 0,
-      "URL": "https://steamusercontent-a.akamaihd.net/ugc/2446096169989812196/B5C491331EB348C261F561DC7A19968ECF9FC74A/"
-    },
-    {
-      "Name": "TheDrownedCity",
-      "Type": 0,
-      "URL": "https://steamusercontent-a.akamaihd.net/ugc/2369545214002978835/12B417B2D54F76D9451D8152F6BBE5C2FEDB4853/"
-    }
-  ],
   "Description": "",
   "DragSelectable": true,
   "GMNotes": "",

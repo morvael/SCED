@@ -4,9 +4,12 @@ do
   -- Concatenates the array parts of t1 and t2 into a new table
   function TableLib.concat(t1, t2)
     local result = {}
-    if type(t1) ~= "table" or type(t2) ~= "table" then return result end
-    for _, v in ipairs(t1) do table.insert(result, v) end
-    for _, v in ipairs(t2) do table.insert(result, v) end
+    if type(t1) == "table" then
+      for _, v in ipairs(t1) do table.insert(result, v) end
+    end
+    if type(t2) == "table" then
+      for _, v in ipairs(t2) do table.insert(result, v) end
+    end
     return result
   end
 
@@ -62,6 +65,13 @@ do
     return keys
   end
 
+  -- Returns the length of a table
+  function TableLib.getLength(t)
+    local count = 0
+    for _ in pairs(t) do count = count + 1 end
+    return count
+  end
+
   -- Checks if a table is empty
   function TableLib.isEmpty(t)
     return next(t) == nil
@@ -76,14 +86,13 @@ do
     return m
   end
 
-  -- Merges the contents of t2 into t1 (in place).
+  -- Merges the contents of two tables into a new table.
   -- If a key exists in both tables, the value from t2 is used.
   function TableLib.merge(t1, t2)
-    if type(t1) ~= "table" or type(t2) ~= "table" then return t1 end
-    for k, v in pairs(t2) do
-      t1[k] = v
-    end
-    return t1
+    local result = {}
+    for k, v in pairs(t1 or {}) do result[k] = v end
+    for k, v in pairs(t2 or {}) do result[k] = v end
+    return result
   end
 
   -- Returns a random list element

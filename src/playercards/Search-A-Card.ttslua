@@ -83,7 +83,8 @@ end
 
 function toggleNoLimit(playerColor)
   printToColor(
-  "The limitation of only spawning the first 100 cards has been " .. (noLimit and "en" or "dis") .. "abled.", playerColor)
+    "The limitation of only spawning the first 100 cards has been " .. (noLimit and "en" or "dis") .. "abled.",
+    playerColor)
   noLimit = not noLimit
   createContextMenu()
   updateSave()
@@ -154,7 +155,9 @@ function startSearch()
   end
 
   if (#cardList > 100) and noLimit == false then
-    printToAll("Matched more than 100 cards, please try a more specific search or enter unlimited mode from the context menu.", "Yellow")
+    printToAll(
+    "Matched more than 100 cards, please try a more specific search or enter unlimited mode from the context menu.",
+      "Yellow")
     return
   end
 
@@ -175,10 +178,10 @@ end
 -- Parses a search string with filters, using the manually included UTF-8 library
 -- to correctly handle Cyrillic and other Unicode characters
 function parseSearchString(input)
-  local filters = {}
+  local filters    = {}
   local searchTerm = {}
-  local i = 1
-  local length = utf8.len(input)
+  local i          = 1
+  local length     = utf8.len(input)
 
   local function skipWhitespace()
     while i <= length do

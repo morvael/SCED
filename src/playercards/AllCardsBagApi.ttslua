@@ -83,15 +83,16 @@ do
   --    metadata: Table of parsed metadata
   function AllCardsBagApi.getCardsByCycle(cycle, sortByMetadata, includeNoLevelCards)
     return TableLib.copy(getAllCardsBag().call("getCardsByCycle", {
-      cycle = cycle,
-      sortByMetadata = sortByMetadata,
+      cycle               = cycle,
+      sortByMetadata      = sortByMetadata,
       includeNoLevelCards = includeNoLevelCards
     }))
   end
 
-  -- Returns the data for custom investigators for the PlayerCardPanel
-  function AllCardsBagApi.getCustomInvestigatorData()
-    return TableLib.copy(getAllCardsBag().call("getCustomInvestigatorData"))
+  -- Returns the data for investigators for the PlayerCardPanel
+  ---@param filters table Contains the filters
+  function AllCardsBagApi.getInvestigatorData(filters)
+    return TableLib.copy(getAllCardsBag().call("getInvestigatorData", { filters = filters }))
   end
 
   -- Constructs a list of available basic weaknesses by starting with the full pool of basic
@@ -119,6 +120,11 @@ do
 
   function AllCardsBagApi.getUpgradeSheetList()
     return TableLib.copy(getAllCardsBag().call("getUpgradeSheetList"))
+  end
+
+  -- Expects a table like { [1] = true, [2] = false, [0] = true }
+  function AllCardsBagApi.getFilteredContent(activeChapters)
+    return TableLib.copy(getAllCardsBag().call("getFilteredContent", activeChapters))
   end
 
   return AllCardsBagApi
