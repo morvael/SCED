@@ -378,9 +378,7 @@ function buildSupplementalIndexes()
         table_insert(uniqueWeaknessList, cardId)
 
         if md.basicWeaknessCount ~= nil then
-          for i = 1, md.basicWeaknessCount do
-            table_insert(basicWeaknessList, cardId)
-          end
+          table_insert(basicWeaknessList, cardId)
         end
 
         if md.evolvedWeakness then
@@ -1027,19 +1025,22 @@ end
 ---  class? string Class to restrict weakness to
 ---  standalone? boolean Whether 'Campaign only' weaknesses should be exluded
 ---  traits? string Trait(s) to use as filter
+---  chapter? table Allowed chapters
 ---@return table: Array of weakness IDs which are valid to choose from
 function buildAvailableWeaknesses(restrictions)
   restrictions = restrictions or {}
 
-  -- gather additional chapter restrictions
-  local panel = GUIDReferenceApi.getObjectByOwnerAndType("Mythos", "PlayerCardPanel")
-  if panel then
-    local state = panel.getVar("toggleButtonState")
-    restrictions.chapter = {
-      [0] = state.Other,
-      [1] = state.Chapter1,
-      [2] = state.Chapter2
-    }
+  -- maybe gather additional chapter restrictions
+  if not restrictions.chapter then
+    local panel = GUIDReferenceApi.getObjectByOwnerAndType("Mythos", "PlayerCardPanel")
+    if panel then
+      local state = panel.getVar("toggleButtonState")
+      restrictions.chapter = {
+        [0] = state.Other,
+        [1] = state.Chapter1,
+        [2] = state.Chapter2
+      }
+    end
   end
 
   local inPlay = {}
@@ -1053,7 +1054,8 @@ function buildAvailableWeaknesses(restrictions)
     end
   end
 
-  local availableWeaknesses = {}
+  -- basicWeaknessList is sorted, so later duplicates with the same name overwrite earlier versions
+  local uniqueNameMap = {} -- Temporary map: [Name] = { ID, count }
   for _, weaknessId in ipairs(basicWeaknessList) do
     if inPlay[weaknessId] and inPlay[weaknessId] > 0 then
       inPlay[weaknessId] = inPlay[weaknessId] - 1
@@ -1061,6 +1063,7 @@ function buildAvailableWeaknesses(restrictions)
       local eligible = true
       local card     = cardIdIndex[weaknessId] or {}
       local md       = card.metadata or {}
+      local name     = card.data.Nickname
 
       -- filter for correct chapter
       if restrictions.chapter then
@@ -1115,9 +1118,17 @@ function buildAvailableWeaknesses(restrictions)
       end
 
       -- add weakness to list if eligible
-      if eligible then
-        table_insert(availableWeaknesses, weaknessId)
+      if eligible and name then
+        uniqueNameMap[name] = { id = weaknessId, count = md.basicWeaknessCount}
       end
+    end
+  end
+
+  -- expand the map to a list
+  local availableWeaknesses = {}
+  for _, data in pairs(uniqueNameMap) do
+    for i = 1, data.count do
+      table_insert(availableWeaknesses, data.id)
     end
   end
   return availableWeaknesses

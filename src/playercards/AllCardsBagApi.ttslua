@@ -25,6 +25,7 @@ do
   ---  class? string Class to restrict weakness to
   ---  standalone? boolean Whether 'Campaign only' weaknesses should be exluded
   ---  traits? string Trait(s) to use as filter
+  ---  chapter? table Allowed chapters
   ---@return table: Table with IDs of the selected weaknesses
   function AllCardsBagApi.getRandomWeaknessIds(count, restrictions)
     return TableLib.copy(getAllCardsBag().call("getRandomWeaknessIds", { count = count, restrictions = restrictions }))
