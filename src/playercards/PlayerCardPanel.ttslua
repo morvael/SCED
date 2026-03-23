@@ -479,7 +479,7 @@ function createXML()
           width                         = 800,
           height                        = 800,
           color                         = "#00000000",
-          raycastTarget                 = true,
+          raycastTarget                 = #activeItems > 8,
           scrollSensitivity             = 100,
           scrollbarColors               = "grey|grey|#C8C8C8|rgba(0.78,0.78,0.78,0.5)",
           horizontalScrollbarVisibility = "AutohideAndExpandViewport"
