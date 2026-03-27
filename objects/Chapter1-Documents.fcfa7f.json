@@ -1,77 +1,77 @@
 {
-  "GUID": "fcfa7f",
-  "Name": "Custom_Model_Bag",
-  "Transform": {
-    "posX": -43.0,
-    "posY": 1.47,
-    "posZ": 89.0,
-    "rotX": 0.0,
-    "rotY": 280.0,
-    "rotZ": 0.0,
-    "scaleX": 5,
-    "scaleY": 5,
-    "scaleZ": 5
-  },
-  "Nickname": "Chapter 1 - Documents",
-  "Description": "Rules Reference, Learn to Play, FAQ and more!",
-  "GMNotes": "",
   "AltLookAngle": {
-    "x": 0.0,
-    "y": 0.0,
-    "z": 0.0
+    "x": 0,
+    "y": 0,
+    "z": 0
   },
-  "ColorDiffuse": {
-    "r": 1.0,
-    "g": 1.0,
-    "b": 1.0
-  },
-  "LayoutGroupSortIndex": 0,
-  "Value": 0,
-  "Locked": true,
-  "Grid": true,
-  "Snap": true,
-  "IgnoreFoW": false,
-  "MeasureMovement": false,
-  "DragSelectable": true,
   "Autoraise": true,
-  "Sticky": true,
-  "Tooltip": true,
-  "GridProjection": false,
-  "HideWhenFaceDown": false,
-  "Hands": false,
-  "MaterialIndex": -1,
-  "MeshIndex": -1,
-  "CustomMesh": {
-    "MeshURL": "https://steamusercontent-a.akamaihd.net/ugc/254843371583107453/E3BD9426DD28A525F93BAF54635A969958E991B2/",
-    "DiffuseURL": "https://steamusercontent-a.akamaihd.net/ugc/762723517668487233/EDDD832597F756BE94833B29B70EE21EDA95C677/",
-    "NormalURL": "",
-    "ColliderURL": "",
-    "Convex": true,
-    "MaterialIndex": 3,
-    "TypeIndex": 6,
-    "CustomShader": {
-      "SpecularColor": {
-        "r": 1.0,
-        "g": 1.0,
-        "b": 1.0
-      },
-      "SpecularIntensity": 0.0,
-      "SpecularSharpness": 2.0,
-      "FresnelStrength": 0.0
-    },
-    "CastShadows": true
-  },
   "Bag": {
     "Order": 0
   },
-  "LuaScript": "",
-  "LuaScriptState": "",
-  "XmlUI": "",
+  "ColorDiffuse": {
+    "b": 1,
+    "g": 1,
+    "r": 1
+  },
   "ContainedObjects_order": [
     "DetailedPhaseReference.68fe54",
     "LatestFAQ.faqfaq",
     "LearntoPlay.4ff3b0",
     "RulesReference.d99993"
   ],
-  "ContainedObjects_path": "Chapter1Documents.fcfa7f"
+  "ContainedObjects_path": "Chapter1-Documents.fcfa7f",
+  "CustomMesh": {
+    "CastShadows": true,
+    "ColliderURL": "",
+    "Convex": true,
+    "CustomShader": {
+      "FresnelStrength": 0,
+      "SpecularColor": {
+        "b": 1,
+        "g": 1,
+        "r": 1
+      },
+      "SpecularIntensity": 0,
+      "SpecularSharpness": 2
+    },
+    "DiffuseURL": "https://steamusercontent-a.akamaihd.net/ugc/762723517668487233/EDDD832597F756BE94833B29B70EE21EDA95C677/",
+    "MaterialIndex": 3,
+    "MeshURL": "https://steamusercontent-a.akamaihd.net/ugc/254843371583107453/E3BD9426DD28A525F93BAF54635A969958E991B2/",
+    "NormalURL": "",
+    "TypeIndex": 6
+  },
+  "Description": "Rules Reference, Learn to Play, FAQ and more!",
+  "DragSelectable": true,
+  "GMNotes": "",
+  "GUID": "fcfa7f",
+  "Grid": true,
+  "GridProjection": false,
+  "Hands": false,
+  "HideWhenFaceDown": false,
+  "IgnoreFoW": false,
+  "LayoutGroupSortIndex": 0,
+  "Locked": true,
+  "LuaScript": "",
+  "LuaScriptState": "",
+  "MaterialIndex": -1,
+  "MeasureMovement": false,
+  "MeshIndex": -1,
+  "Name": "Custom_Model_Bag",
+  "Nickname": "Chapter 1 - Documents",
+  "Snap": true,
+  "Sticky": true,
+  "Tooltip": true,
+  "Transform": {
+    "posX": -43,
+    "posY": 1.471,
+    "posZ": 89,
+    "rotX": 0,
+    "rotY": 280,
+    "rotZ": 0,
+    "scaleX": 5,
+    "scaleY": 5,
+    "scaleZ": 5
+  },
+  "Value": 0,
+  "XmlUI": ""
 }

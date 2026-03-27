@@ -11,6 +11,7 @@
         "Name": "Image #1",
         "Size": 1
       },
+      "OwnerSteamID": 0,
       "Transform": {
         "posX": -0.93,
         "posY": 0.105,
@@ -29,6 +30,7 @@
         "Name": "Image #2",
         "Size": 1
       },
+      "OwnerSteamID": 0,
       "Transform": {
         "posX": -1.05,
         "posY": 0.105,
@@ -47,6 +49,7 @@
         "Name": "Image #3",
         "Size": 1
       },
+      "OwnerSteamID": 0,
       "Transform": {
         "posX": 0,
         "posY": 0.105,

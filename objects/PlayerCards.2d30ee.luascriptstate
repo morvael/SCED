@@ -1,0 +1,14 @@
+{
+  "lastWeaknessTrait": "Madness",
+  "spawnBagState": {
+    "placed": [],
+    "placedObjects": []
+  },
+  "toggleButtonState": {
+    "CardsOnly": true,
+    "Chapter1": true,
+    "Chapter2": true,
+    "Other": true,
+    "StarterDecks": false
+  }
+}
