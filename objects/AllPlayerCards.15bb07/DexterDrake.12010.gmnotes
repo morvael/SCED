@@ -15,6 +15,7 @@
   "sanity": 8,
   "cycle": "Core 2026",
   "extraToken": "Reaction",
+  "starterDeck": "5852594",
   "signatures": [
     {
       "12011": 1,
