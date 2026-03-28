@@ -78,6 +78,7 @@ end
 function elderSignAbility()
   local matColor = PlayermatApi.getMatColorByPosition(self.getPosition())
   PlayermatApi.updateCounter(matColor, "ResourceCounter", nil, 1)
+  broadcastToAll("Gaining 1 resource from André's elder sign.", "White")
 end
 
 function setUiState(params)
