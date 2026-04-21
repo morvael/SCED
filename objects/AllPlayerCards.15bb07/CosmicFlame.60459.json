@@ -1,7 +1,7 @@
 {
-  "CardID": 6025800,
+  "CardID": 6045900,
   "CustomDeck": {
-    "60258": {
+    "60459": {
       "BackIsHidden": true,
       "BackURL": "https://steamusercontent-a.akamaihd.net/ugc/2342503777940352139/A2D42E7E5C43D045D72CE5CFC907E4F886C8C690/",
       "FaceURL": "",
@@ -10,10 +10,10 @@
       "Type": 0
     }
   },
-  "GMNotes_path": "AllPlayerCards.15bb07/PsychologyStudent.60258.gmnotes",
-  "GUID": "60258",
+  "GMNotes_path": "AllPlayerCards.15bb07/CosmicFlame.60459.gmnotes",
+  "GUID": "60459",
   "Name": "Card",
-  "Nickname": "Psychology Student",
+  "Nickname": "Cosmic Flame",
   "Tags": [
     "Asset",
     "PlayerCard"
