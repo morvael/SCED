@@ -57,6 +57,13 @@ function buildIndex()
   end
 
   indexingDone = true
+
+  for _, obj in ipairs(getObjects()) do
+    -- skip All Cards Bag and skip hotfix bags
+    if obj ~= self and obj.getGUID() ~= "15bb07" and not obj.hasTag("AllCardsHotfix") and not obj.hasTag("AllEncounterCardsHotfix") then
+      onObjectSpawn(obj)
+    end
+  end
 end
 
 -- TODO: unify this with the AllCardsBag

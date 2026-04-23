@@ -1,11 +1,11 @@
 local GlobalApi    = require("Global/GlobalApi")
-local MathLib      = require("util/MathLib")
 local PlayermatApi = require("playermat/PlayermatApi")
 
-ROTATION           = "0 0 90"
-POSITION           = "0 -70 -40"
 isListening        = false
 
+-- these are used by the SkillSelectionCard script
+POSITION           = "0 -70 -40"
+ROTATION           = "0 0 90"
 require("playercards/SkillSelectionCard")
 
 function extraButtons()
@@ -69,19 +69,11 @@ function extraButtons()
 end
 
 function hasAllyTrait(md)
-  if md and md.traits and string.match(md.traits, "Ally") then
-    return true
-  else
-    return false
-  end
+  return md and md.traits and string.match(md.traits, "Ally")
 end
 
-function strToBoolean(value)
-  if value == "true" or value == "True" or value == true then
-    return true
-  else
-    return false
-  end
+function isTrue(value)
+  return value == "true" or value == "True" or value == true
 end
 
 -- starts listening for Ally card exhausts
@@ -101,7 +93,7 @@ function addExhaustButtons()
       local md = JSON.decode(object.getGMNotes()) or {}
       if hasAllyTrait(md) then
         if not hasSpecificXmlElement(object, "Charlie") then
-          local xml = object.UI.getXmlTable() or {}
+          local xml           = object.UI.getXmlTable() or {}
           local exhaustButton = makeExhaustButton(object.getGUID())
 
           table.insert(xml, exhaustButton)
@@ -116,8 +108,8 @@ function addExhaustButtons()
                 width    = 375,
                 padding  = "0 0 20 25",
                 scale    = ".2 .2 1",
+                position = "0 -87 -260",
                 rotation = "0 0 180",
-                position = "0 -85 -180",
                 color    = "rgba(0,0,0,0.9)",
                 onClick  = self.getGUID() .. "/bonnie"
               },
@@ -147,9 +139,9 @@ function addExhaustButtons()
           end
           -- panel to contain these elements
           local panelXml = { {
-            tag = "Panel",
+            tag        = "Panel",
             attributes = { id = "Charlie", active = true },
-            children = xml
+            children   = xml
           } }
           object.UI.setXmlTable(panelXml)
         else
@@ -162,8 +154,10 @@ end
 
 function exhaustOrReadyAlly(_, allyGUID)
   allyCard = getObjectFromGUID(allyGUID)
+
   -- get behavior
   local exhaustOrUndo = allyCard.UI.getAttribute("charlieText", "text")
+
   -- exhaust card
   local matColor = PlayermatApi.getMatColorByPosition(self.getPosition())
   if exhaustOrUndo == "Exhaust" then
@@ -171,6 +165,7 @@ function exhaustOrReadyAlly(_, allyGUID)
       broadcastToAll("Ally is already exhausted.", "Red")
       return
     end
+
     modifier = 1
     allyCard.UI.setAttribute("charlieText", "text", "Undo")
     allyCard.setRotationSmooth(PlayermatApi.getExhaustRotation(matColor, true), nil, true)
@@ -186,9 +181,9 @@ function exhaustOrReadyAlly(_, allyGUID)
     return
   end
 
-  local md = JSON.decode(allyCard.getGMNotes()) or {}
+  local md             = JSON.decode(allyCard.getGMNotes()) or {}
   local selectedSkills = getSelectedSkills()
-  local iconTypes = { "Wild", "Willpower", "Intellect", "Combat", "Agility" }
+  local iconTypes      = { "Wild", "Willpower", "Intellect", "Combat", "Agility" }
   for _, iconName in ipairs(iconTypes) do
     local mdName = string.lower(iconName) .. "Icons"
     if md[mdName] ~= nil and (selectedSkills[string.lower(iconName)] == true or mdName == "wildIcons") then
@@ -208,7 +203,7 @@ function bonnie()
       local md = JSON.decode(object.getGMNotes()) or {}
       if hasAllyTrait(md) and hasSpecificXmlElement(object, "Charlie") and md.id ~= "09019" then
         bigTable[object.guid] = object.UI.getAttribute("charlieText", "text")
-        if strToBoolean(object.UI.getAttribute("Charlie", "active")) and GlobalApi.isExhausted(object) then
+        if isTrue(object.UI.getAttribute("Charlie", "active")) and GlobalApi.isExhausted(object) then
           object.UI.setAttribute("charlieText", "text", "Ready")
         end
       end
@@ -223,7 +218,7 @@ function revert()
       local md = JSON.decode(object.getGMNotes()) or {}
       if hasAllyTrait(md) and hasSpecificXmlElement(object, "Charlie") then
         local previousText = bigTable[object.guid]
-        if strToBoolean(object.UI.getAttribute("Charlie", "active")) and previousText ~= nil then
+        if isTrue(object.UI.getAttribute("Charlie", "active")) and previousText ~= nil then
           object.UI.setAttribute("charlieText", "text", previousText)
         end
       end
@@ -245,7 +240,7 @@ function stopListening()
     if object.type == "Card" then
       local md = JSON.decode(object.getGMNotes()) or {}
       if hasAllyTrait(md) and hasSpecificXmlElement(object, "Charlie") then
-        if strToBoolean(object.UI.getAttribute("Charlie", "active")) then
+        if isTrue(object.UI.getAttribute("Charlie", "active")) then
           object.UI.setAttribute("Charlie", "active", false)
           object.UI.setAttribute("charlieText", "text", "Exhaust")
         end
@@ -285,8 +280,8 @@ function makeExhaustButton(cardGUID)
       width    = 375,
       padding  = "0 0 20 25",
       scale    = ".35 .35 1",
+      position = "0 22 -260",
       rotation = "0 0 180",
-      position = "0 20 -180",
       color    = "rgba(0,0,0,0.9)",
       onClick  = self.getGUID() .. "/exhaustOrReadyAlly(" .. cardGUID .. ")"
     },
@@ -315,29 +310,24 @@ function makeExhaustButton(cardGUID)
 end
 
 function updateMatchingSkillLabel(matchingSkillTotal)
-  if matchingSkillTotal > 9 then
-    fontSize = 430
-  else
-    fontSize = 550
-  end
   local label = "+" .. matchingSkillTotal
   self.UI.setAttribute("modifierText", "text", label)
-  self.UI.setAttribute("modifierText", "fontSize", fontSize)
+  self.UI.setAttribute("modifierText", "fontSize", matchingSkillTotal > 9 and 430 or 550)
   updateSave()
 end
 
 function getSaveData()
   return {
     matchingSkillTotal = matchingSkillTotal,
-    isListening = isListening
+    isListening        = isListening
   }
 end
 
 function onLoad2(loadedData)
-  if loadedData ~= nil then
+  if loadedData then
     matchingSkillTotal = loadedData.matchingSkillTotal
-    isListening = loadedData.isListening
-    if isListening == true then
+    isListening        = loadedData.isListening
+    if isListening then
       updateDisplay()
       self.UI.setAttribute("bottomButton", "active", true)
       self.UI.setAttribute("modifierPanel", "active", true)

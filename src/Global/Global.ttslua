@@ -1894,9 +1894,10 @@ function onClick_customUrl(player)
 end
 
 -- click function for the download button in the preview window
-function onClick_download(player)
-  local params = library[contentToShow][currentListItem]
-  params.player = player
+function onClick_download(player, clickType)
+  local params    = library[contentToShow][currentListItem]
+  params.player   = player
+  params.keepOpen = clickType == "-3" -- middle-click
   placeholder_download(params)
 end
 
@@ -1921,7 +1922,7 @@ function placeholder_download(params)
     UI.setAttribute("download_progress", "active", false)
 
     -- hide download window
-    if params.player then
+    if params.player and not params.keepOpen then
       changeWindowVisibilityForColor(params.player.color, "downloadWindow", false)
     end
   end
@@ -3329,7 +3330,7 @@ function contentDownloadCallback(request, params)
   spawnTable["callback_function"] = function(obj)
     Wait.time(function()
       -- if spawned from menu, move the camera and/or ping the table
-      if params.name then
+      if params.name and not params.keepOpen then
         -- move camera
         if params.player then
           params.player.lookAt({
