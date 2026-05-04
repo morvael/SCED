@@ -291,6 +291,18 @@ function fireScenarioChangedEvent(md)
     end
   end
 
+  -- shuffle encounter deck
+  local objects = getEncounterDeckObjects()
+  objects.draw.shuffle()
+
+  -- flip scenario card to Hard/Expert
+  if GlobalApi.getOptionPanelState()['defaultHardExpert'] then
+    local rot = scenarioCard.getRotation()
+    scenarioCard.setRotation(rot:setAt("z", 180))
+    tokenData = md["tokens"]["back"]
+    fireTokenDataChangedEvent()
+  end
+
   -- reset the token spawning for locations
   TokenSpawnTrackerApi.resetAllLocations()
 end

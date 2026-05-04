@@ -4220,6 +4220,7 @@ function onClick_defaultSettings()
   optionPanel = {
     uiLanguage                = "en",
     changePlayAreaImage       = false,
+    defaultHardExpert         = false,
     enableCardHelpers         = true,
     enableCounterLogging      = true,
     highlightMinicards        = false,
