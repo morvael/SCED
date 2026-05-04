@@ -950,7 +950,7 @@ I18N_DATA = {
     ["zh_TW"] = "使用該按鈕來創建自訂的桌面佈局\n（基於當前所選的佈局）",
   },
   ["OP_defaultHardExpert"] = {
-    ["de"] = "Set difficulty to Hard/Expert",
+    ["de"] = "Schwierigkeit: Hart/Experte",
     ["en"] = "Set difficulty to Hard/Expert",
     ["es"] = "Set difficulty to Hard/Expert",
     ["fr"] = "Set difficulty to Hard/Expert",
@@ -964,7 +964,7 @@ I18N_DATA = {
     ["zh_TW"] = "Set difficulty to Hard/Expert"
   },
   ["OP_defaultHardExpert_tooltip"] = {
-    ["de"] = "Set the scenario reference card\nto Hard/Expert by default.",
+    ["de"] = "Dreht die Szenario-Referenzkarte standardmäßig\nauf die Hart/Experte-Seite.",
     ["en"] = "Set the scenario reference card\nto Hard/Expert by default.",
     ["es"] = "Set the scenario reference card\nto Hard/Expert by default.",
     ["fr"] = "Set the scenario reference card\nto Hard/Expert by default.",

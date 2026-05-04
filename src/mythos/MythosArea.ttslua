@@ -304,6 +304,7 @@ function fireScenarioChangedEvent(md)
     local objects = getEncounterDeckObjects()
     if objects.draw then
       objects.draw.shuffle()
+      printToAll("Encounter deck was shuffled.")
     end
   end
 
