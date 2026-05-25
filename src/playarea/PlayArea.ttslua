@@ -770,6 +770,68 @@ function shiftContents(playerColor, direction)
   Wait.time(drawBaseConnections, 0.1)
 end
 
+function rotateContents(directionOrDegrees)
+  local zone = GUIDReferenceApi.getObjectByOwnerAndType("Mythos", "PlayAreaZone")
+  if not zone then
+    broadcastToAll("Scripting zone couldn't be found.", "Red")
+    return
+  end
+
+  -- determine rotation degrees
+  local degrees
+  if directionOrDegrees == "clockwise" then
+    degrees = -15
+  elseif directionOrDegrees == "counterclockwise" then
+    degrees = 15
+  end
+
+  -- trigonometry
+  local radians = math.rad(degrees)
+  local cosRad  = math.cos(radians)
+  local sinRad  = math.sin(radians)
+
+  -- perform the actual rotating
+  for _, object in ipairs(zone.getObjects()) do
+    if not object.hasTag("displacement_excluded") then
+      -- rotate the object itself
+      local newRotation = object.getRotation() - Vector(0, degrees, 0)
+      object.setRotation(newRotation)
+
+      -- rotate its position around the origin (x = 0, y = 0)
+      local currentPos  = object.getPosition()
+      local currentGrid = worldToGrid(currentPos)
+      local x           = currentGrid.x
+      local y           = currentGrid.y
+      local newX        = x * cosRad - y * sinRad
+      local newY        = x * sinRad + y * cosRad
+
+      -- check if close to multiple of 90 and maybe snap
+      if math.abs(MathLib.roundToMultiple(newRotation.y, 90) - newRotation.y) < 5 then
+        newX = snapIfClose(newX)
+        newY = snapIfClose(newY)
+      end
+
+      -- determine new global position
+      local newGrid = { x = newX, y = newY }
+      local newPos  = gridToWorld(newGrid)
+      object.setPosition(newPos)
+    end
+  end
+
+  Wait.time(drawBaseConnections, 0.1)
+end
+
+-- Helper function for conditional snapping to 0.5 increments
+function snapIfClose(val)
+  local nearestHalf = MathLib.roundToMultiple(val, 0.5)
+
+  -- Check if the actual value is close to the nearest 0.5 step
+  if math.abs(val - nearestHalf) < 0.1 then
+    return nearestHalf
+  end
+  return val
+end
+
 -- Sets the image of the playarea
 ---@param newURL string URL for the new surface image
 function updateSurface(newURL)
