@@ -771,65 +771,31 @@ function shiftContents(playerColor, direction)
 end
 
 -- Rotate all objects on the play area around the middle snap point
----@param directionOrDegrees string|number "clockwise" / "counterclockwise" for 15° rotation or rotation degrees
-function rotateContents(directionOrDegrees)
+---@param degrees number Degress to rotate counterclockwise
+function rotateContents(degrees)
   local zone = GUIDReferenceApi.getObjectByOwnerAndType("Mythos", "PlayAreaZone")
   if not zone then
     broadcastToAll("Scripting zone couldn't be found.", "Red")
     return
   end
 
-  -- determine rotation degrees
-  local degrees = directionOrDegrees
-  if directionOrDegrees == "clockwise" then
-    degrees = -15
-  elseif directionOrDegrees == "counterclockwise" then
-    degrees = 15
-  end
-
-  -- trigonometry
-  local radians = math.rad(degrees)
-  local cosRad  = math.cos(radians)
-  local sinRad  = math.sin(radians)
-
   -- perform the actual rotating
   for _, object in ipairs(zone.getObjects()) do
     if not object.hasTag("displacement_excluded") then
       -- rotate the object itself
-      local newRotation = object.getRotation() - Vector(0, degrees, 0)
-      object.setRotation(newRotation)
+      local newRotationY = MathLib.roundToMultiple(object.getRotation().y - degrees, 15)
+      object.setRotation(object.getRotation():setAt("y", newRotationY))
 
-      -- rotate its position around the origin (x = 0, y = 0)
-      local currentPos  = object.getPosition()
-      local currentGrid = worldToGrid(currentPos)
-      local x           = currentGrid.x
-      local y           = currentGrid.y
-      local newX        = x * cosRad - y * sinRad
-      local newY        = x * sinRad + y * cosRad
-
-      -- check if close to multiple of 90 and maybe round
-      if math.abs(MathLib.roundToMultiple(newRotation.y, 90) - newRotation.y) < 5 then
-        newX = roundIfClose(newX)
-        newY = roundIfClose(newY)
-      end
-
-      -- determine new global position
-      local newGrid = { x = newX, y = newY }
-      local newPos  = gridToWorld(newGrid)
+      -- rotate its position around the origin of the playable zone
+      local currentPos = object.getPosition()
+      local localPos   = self.positionToLocal(currentPos) + Vector(0, 0, CENTER_Z)
+      local rotatedPos = localPos:rotateOver("y", -degrees) - Vector(0, 0, CENTER_Z)
+      local newPos     = self.positionToWorld(rotatedPos)
       object.setPosition(newPos)
     end
   end
 
   Wait.time(drawBaseConnections, 0.1)
-end
-
--- Helper function for conditional rounding
-function roundIfClose(val)
-  local nearestRounded = MathLib.roundToMultiple(val, 0.25)
-  if math.abs(val - nearestRounded) < 0.05 then
-    return nearestRounded
-  end
-  return val
 end
 
 -- Sets the image of the playarea
