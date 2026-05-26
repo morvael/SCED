@@ -2,6 +2,7 @@
 import argparse
 import datetime
 import json
+import os
 import platform
 import shutil
 import subprocess
@@ -20,6 +21,7 @@ except ImportError:
     pygetwindow = None
 
 PLATFORM = platform.system()
+TTS_SUFFIX = Path("Tabletop Simulator") / "Saves"
 
 # Helper Functions
 
@@ -50,12 +52,34 @@ def get_current_git_branch():
         return None
 
 
+def get_windows_documents_dir() -> Path:
+    """Helper to safely retrieve the Windows Documents folder via registry."""
+    try:
+        import winreg
+
+        sub_key = (
+            r"Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders"
+        )
+        with winreg.OpenKey(winreg.HKEY_CURRENT_USER, sub_key) as key:
+            # 'Personal' is the registry key for the Documents folder
+            doc_path_str, _ = winreg.QueryValueEx(key, "Personal")
+
+            # Expand environment variables like %USERPROFILE% if present
+            return Path(os.path.expandvars(doc_path_str))
+    except Exception:
+        # Fallback to standard guess if registry lookup fails
+        return Path.home() / "Documents"
+
+
 def get_output_folder():
-    home = Path.home()
     if PLATFORM == "Windows":
-        return home / "Documents" / "My Games" / "Tabletop Simulator" / "Saves"
-    else:
-        return home / "Library" / "Tabletop Simulator" / "Saves"
+        base_dir = get_windows_documents_dir() / "My Games"
+    elif PLATFORM == "Darwin":  # macOS
+        base_dir = Path.home() / "Library"
+    else:  # Linux
+        base_dir = Path.home() / ".local" / "share"
+
+    return base_dir / TTS_SUFFIX
 
 
 def get_base_command():
