@@ -17,6 +17,7 @@ local PlayAreaApi                 = require("playarea/PlayAreaApi")
 local PlayermatApi                = require("playermat/PlayermatApi")
 local SearchLib                   = require("util/SearchLib")
 local SoundCubeApi                = require("core/SoundCubeApi")
+local StringLib                   = require("util/StringLib")
 local TableLib                    = require("util/TableLib")
 local TokenArrangerApi            = require("tokens/TokenArrangerApi")
 local TokenChecker                = require("tokens/TokenChecker")
@@ -3487,8 +3488,8 @@ function confirmCustomTableSetup(player)
   local inputId     = "InputDialog_scrollableInput"
 
   -- get text values and remove whitespace (leading and trailing)
-  local text        = UI.getAttribute(inputId, "text"):gsub("^%s+", ""):gsub("%s+$", "")
-  local defaultText = UI.getAttribute(inputId, "defaultText"):gsub("^%s+", ""):gsub("%s+$", "")
+  local text        = StringLib.trim(UI.getAttribute(inputId, "text"))
+  local defaultText = StringLib.trim(UI.getAttribute(inputId, "defaultText"))
 
   if defaultText == text then
     broadcastToColor("No change detected.", player.color, "White")

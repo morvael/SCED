@@ -2,6 +2,7 @@ require("playercards/ReprintGroups")
 local CoroutineLib          = require("util/CoroutineLib")
 local DeckImporterApi       = require("deckbuilder/DeckImporterApi")
 local GUIDReferenceApi      = require("core/GUIDReferenceApi")
+local StringLib             = require("util/StringLib")
 local TableLib              = require("util/TableLib")
 
 -- local assignment since this is called 2000 times onLoad
@@ -461,33 +462,6 @@ function buildSupplementalIndices()
   end
 end
 
-function toTitleCase(str)
-  if str == "the blob that ate everything else" then
-    return "The Blob that Ate Everything ELSE"
-  end
-
-  local exclusions = {
-    ["the"] = true,
-    ["of"]  = true,
-    ["or"]  = true,
-    ["to"]  = true,
-    ["and"] = true,
-    ["in"]  = true
-  }
-  local wordCount = 0
-
-  return (str:gsub("(%a)([%w_']*)", function(first, rest)
-    wordCount = wordCount + 1
-    local word = first:lower() .. rest:lower()
-
-    -- Capitalize if it's the first word OR not in the exclusion list
-    if wordCount == 1 or not exclusions[word] then
-      return first:upper() .. rest:lower()
-    end
-    return word
-  end))
-end
-
 -- Helper: Checks if a cycle actually contains spawnable cards
 function cycleHasSpawnableCards(cycleName)
   local cycleData = cycleIndex[string.lower(cycleName)]
@@ -515,7 +489,13 @@ function getFilteredContent(activeChapters)
 
     local chapter = CHAPTER_MAP[cycleName] or 0
     if activeChapters[chapter] and cycleIndex[cycleName] and cycleHasSpawnableCards(cycleName) then
-      table_insert(matches, toTitleCase(cycleName))
+      local properName
+      if cycleName == "the blob that ate everything else" then
+        properName = "The Blob that Ate Everything ELSE"
+      else
+        properName = StringLib.toTitleCase(cycleName)
+      end
+      table_insert(matches, properName)
       seen[cycleName] = true
       if cycleName == "other" then hasOther = true end
     end
@@ -1122,7 +1102,7 @@ function buildAvailableWeaknesses(restrictions)
           str = str:gsub("[%.]", "")
 
           -- remove leading and trailing whitespace
-          str = str:match("^%s*(.-)%s*$")
+          str = StringLib.trim(str)
 
           -- make sure string ends with a dot
           str = string_lower(str .. ".")
