@@ -34,7 +34,7 @@ do
   end
 
   function XmlLib.setAttribute(id, attribute, value)
-    local newAttributes = {}
+    local newAttributes      = {}
     newAttributes[attribute] = value
     XmlLib.setAttributes(id, newAttributes)
   end

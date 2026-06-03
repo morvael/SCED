@@ -8,12 +8,13 @@ local NavigationOverlayApi = require("core/NavigationOverlayApi")
 local PlayAreaApi          = require("playarea/PlayAreaApi")
 local PlayermatApi         = require("playermat/PlayermatApi")
 local SearchLib            = require("util/SearchLib")
+local StringLib            = require("util/StringLib")
 local TokenChecker         = require("tokens/TokenChecker")
 local VictoryDisplayApi    = require("mythos/VictoryDisplayApi")
 
 local DOUBLE_CLICK_DELAY   = 0.5
 
-local sentWarningAsBlackMsg = false
+local sentWarningAsBlack   = false
 
 -- Table to track last press time for each player and hotkey
 local hotkeyTimers         = {}
@@ -47,17 +48,16 @@ function formatClueTaking(playerColor, messages)
 end
 
 function doesMatExist(matColor)
-  local mat = GUIDReferenceApi.getObjectByOwnerAndType(matColor, "Playermat")
-  return mat ~= nil
+  return GUIDReferenceApi.getObjectByOwnerAndType(matColor, "Playermat") ~= nil
 end
 
 -- triggers the "Upkeep" function of the calling player's playermat
 function triggerUpkeep(playerColor)
   local vColor = getVirtualColor(playerColor)
 
-  if playerColor == "Black" and not sentWarningAsBlackMsg then
+  if playerColor == "Black" and not sentWarningAsBlack then
     broadcastToColor("It is recommended to sit on a player mat", playerColor, "Yellow")
-    sentWarningAsBlackMsg = true
+    sentWarningAsBlack = true
   end
 
   if #Player.getPlayers() == 1 then
@@ -66,11 +66,10 @@ function triggerUpkeep(playerColor)
       PlayermatApi.doUpkeepFromHotkey(matColor, playerColor)
     end
     PlayAreaApi.readyCards()
-    return
+  else
+    local matColor = PlayermatApi.getMatColor(vColor)
+    PlayermatApi.doUpkeepFromHotkey(matColor, playerColor)
   end
-
-  local matColor = PlayermatApi.getMatColor(vColor)
-  PlayermatApi.doUpkeepFromHotkey(matColor, playerColor)
 end
 
 -- adds 1 doom to the agenda
@@ -92,8 +91,8 @@ function placeCardIntoThreatArea(playerColor, hoveredObject)
     return
   end
 
-  local matColor = PlayermatApi.getMatColor(vColor)
-  local cardRot = hoveredObject.getRotation()
+  local matColor      = PlayermatApi.getMatColor(vColor)
+  local cardRot       = hoveredObject.getRotation()
 
   -- do not continue if the threat area is already full
   local threatAreaPos = PlayermatApi.getEncounterCardDrawPosition(matColor, false)
@@ -103,7 +102,7 @@ function placeCardIntoThreatArea(playerColor, hoveredObject)
   end
 
   -- get the rotation of the owning playermat (or Mythos)
-  local cardOwner = GUIDReferenceApi.getOwnerOfObject(hoveredObject)
+  local cardOwner     = GUIDReferenceApi.getOwnerOfObject(hoveredObject)
   local ownerRotation = Vector(0, 270, 0)
   if cardOwner ~= "Mythos" then
     ownerRotation = PlayermatApi.returnRotation(cardOwner)
@@ -111,7 +110,7 @@ function placeCardIntoThreatArea(playerColor, hoveredObject)
 
   -- work out the new rotation
   local matRotation = PlayermatApi.returnRotation(matColor)
-  local newCardRot = cardRot:setAt("y", MathLib.roundToMultiple(matRotation.y + cardRot.y - ownerRotation.y, 45))
+  local newCardRot  = cardRot:setAt("y", MathLib.roundToMultiple(matRotation.y + cardRot.y - ownerRotation.y, 45))
 
   -- move the main card to threat area
   GlobalApi.moveCardWithTokens(hoveredObject, threatAreaPos:setAt("y", 1.6), newCardRot)
@@ -243,11 +242,11 @@ function getColorToDiscardFor(hoveredObject, playerColor)
     end
   end
 
-  local pos                   = hoveredObject.getPosition()
-  local closestMatColor       = PlayermatApi.getMatColorByPosition(pos)
+  local pos             = hoveredObject.getPosition()
+  local closestMatColor = PlayermatApi.getMatColorByPosition(pos)
 
   -- discard to closest mat if card is in a hand
-  local handZone = GUIDReferenceApi.getObjectByOwnerAndType(closestMatColor, "HandZone")
+  local handZone        = GUIDReferenceApi.getObjectByOwnerAndType(closestMatColor, "HandZone")
   for _, zone in ipairs(hoveredObject.getZones()) do
     if zone == handZone then
       return closestMatColor
@@ -429,7 +428,7 @@ function removeAUse(playerColor, hoveredObject)
       elseif targetObject.memo == "resourceCounter" then
         tokenName = "Resource Counter"
       else
-        tokenName = titleCase(targetObject.memo)
+        tokenName = StringLib.toTitleCase(targetObject.memo)
       end
     else
       tokenName = "unknown token"
@@ -461,12 +460,11 @@ function setVirtualColorForNextHotkey(playerColor)
     else
       broadcastToColor("Hover a different playermat and try again.", playerColor, "Orange")
     end
-    return
+  else
+    virtualColor[playerColor] = handColor
+    local msgString = GlobalApi.getColoredName(handColor)
+    broadcastToColor("Set the virtual player color for your next hotkey to: " .. msgString, playerColor)
   end
-
-  virtualColor[playerColor] = handColor
-  local msgString = GlobalApi.getColoredName(handColor)
-  broadcastToColor("Set the virtual player color for your next hotkey to: " .. msgString, playerColor)
 end
 
 function getVirtualColor(playerColor)
@@ -668,20 +666,21 @@ function viewMythosArea(playerColor)
 end
 
 function viewPlayermat(playerColor)
-  local vColor = getVirtualColor(playerColor)
+  local vColor   = getVirtualColor(playerColor)
   local matColor = PlayermatApi.getMatColor(vColor)
   if not matColor then
     broadcastToColor("Couldn't find playermat.", playerColor, "Red")
+  else
+    NavigationOverlayApi.loadCamera(Player[vColor] or Player[playerColor], nil, matColor)
   end
-  NavigationOverlayApi.loadCamera(Player[vColor] or Player[playerColor], _, matColor)
 end
 
 function discardRandomCardFromHand(playerColor)
   local vColor = getVirtualColor(playerColor)
 
-  if playerColor == "Black" and not sentWarningAsBlackMsg then
+  if playerColor == "Black" and not sentWarningAsBlack then
     broadcastToColor("It is recommended to sit on a player mat", playerColor, "Yellow")
-    sentWarningAsBlackMsg = true
+    sentWarningAsBlack = true
   end
 
   local matColor = PlayermatApi.getMatColor(vColor)
@@ -698,17 +697,10 @@ function inArea(point, bounds)
     and point.z < bounds.maxZ)
 end
 
--- capitalizes the first letter
-function titleCase(str)
-  local first = str:sub(1, 1)
-  local rest = str:sub(2)
-  return first:upper() .. rest:lower()
-end
-
 -- returns the color of the first seated player
 function getFirstSeatedPlayer()
-  for _, color in ipairs(getSeatedPlayers()) do
-    return color
+  for _, playerColor in ipairs(getSeatedPlayers()) do
+    return playerColor
   end
 end
 
@@ -725,7 +717,7 @@ HOTKEYS = {
   { label = "Add doom to agenda" },
   { label = "Add Bless/Curse context menu" },
   { label = "Discard object" },
-  { label = "Discard random card from hand"},
+  { label = "Discard random card from hand" },
   { label = "Discard top card" },
   { label = "Display Bless/Curse status" },
   { label = "Get bottom card from deck" },
@@ -792,7 +784,7 @@ function hotkeyHandler(playerColor, object, pointerPosition, hotkeyName)
   end
   if not hotkeyData then return end
 
-  local callback = hotkeyData.callback or _G[toCamelCase(hotkeyData.label)]
+  local callback = hotkeyData.callback or _G[StringLib.toCamelCase(hotkeyData.label)]
   if not callback then return end
 
   if not hotkeyData.needsDouble then
@@ -820,24 +812,4 @@ function hotkeyHandler(playerColor, object, pointerPosition, hotkeyName)
       end
     end, DOUBLE_CLICK_DELAY)
   end
-end
-
-function toCamelCase(str)
-  -- Remove special characters and replace spaces, underscores, and hyphens with a space
-  local newStr = str:gsub("[^%w%s%-]", " ")
-  newStr = newStr:gsub("[_%-]", " ")
-  newStr = newStr:lower()
-
-  -- Capitalize the first letter of each word
-  newStr = newStr:gsub("(%a)(%w*)", function(first, rest) return first:upper() .. rest end)
-
-  -- Remove all spaces
-  newStr = newStr:gsub(" ", "")
-
-  -- Convert the first letter of the whole string back to lowercase
-  local firstChar = newStr:sub(1, 1)
-  local restOfStr = newStr:sub(2)
-  newStr = firstChar:lower() .. restOfStr
-
-  return newStr
 end
