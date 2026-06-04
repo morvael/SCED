@@ -1326,6 +1326,8 @@ function tokenSplash(matColor)
             modifier = 2
           elseif tokenName == "Frost" then
             modifier = -1
+          elseif tokenName == "Blood" then
+            modifier = -1
           else
             modifier = TokenArrangerApi.getCurrentModifier(tokenName) or TokenArrangerApi.getCurrentModifier("")
           end
