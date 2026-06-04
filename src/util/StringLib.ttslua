@@ -1,0 +1,61 @@
+do
+  local StringLib = {}
+
+  function StringLib.toCamelCase(str)
+    if not str or str == "" then return "" end
+
+    -- Remove special characters and replace spaces, underscores, and hyphens with a space
+    local newStr = str:gsub("[^%w%s%-]", " ")
+    newStr = newStr:gsub("[_%-]", " ")
+    newStr = newStr:lower()
+
+    -- Capitalize the first letter of each word
+    newStr = newStr:gsub("(%a)(%w*)", function(first, rest) return first:upper() .. rest end)
+
+    -- Remove all spaces
+    newStr = newStr:gsub(" ", "")
+
+    -- Convert the first letter of the whole string back to lowercase
+    local firstChar = newStr:sub(1, 1)
+    local restOfStr = newStr:sub(2)
+    newStr = firstChar:lower() .. restOfStr
+
+    return newStr
+  end
+
+  -- capitalizes the first letter
+  function StringLib.toTitleCase(str)
+    if not str or str == "" then return "" end
+
+    local exclusions = {
+      ["the"] = true,
+      ["of"]  = true,
+      ["or"]  = true,
+      ["to"]  = true,
+      ["and"] = true,
+      ["a"]   = true,
+      ["an"]  = true,
+      ["in"]  = true
+    }
+    local wordCount = 0
+
+    return (str:gsub("(%a)([%w_']*)", function(first, rest)
+      wordCount = wordCount + 1
+      local word = first:lower() .. rest:lower()
+
+      -- Capitalize if it's the first word OR not in the exclusion list
+      if wordCount == 1 or not exclusions[word] then
+        return first:upper() .. rest:lower()
+      end
+      return word
+    end))
+  end
+
+  -- removes leading and trailing whitespace
+  function StringLib.trim(str)
+    if not str or str == "" then return "" end
+    return str:match("^%s*(.-)%s*$")
+  end
+
+  return StringLib
+end

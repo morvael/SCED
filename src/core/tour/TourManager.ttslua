@@ -113,9 +113,7 @@ do
   ---@param player tts__Player object to end the tour for, provided by XMLUI callback
   function stopTour(player)
     internal.hideCard(player.color)
-    Wait.time(function()
-      internal.finalizeTour(player.color)
-    end, 0.3)
+    Wait.time(function() internal.finalizeTour(player.color) end, 0.3)
   end
 
   -- Ends the tour for all players
@@ -178,9 +176,7 @@ do
     cameraHook.destruct()
     Player[playerColor].setCameraMode("ThirdPerson")
     tourState[playerColor] = nil
-    Wait.frames(function()
-      Player[playerColor].lookAt(DEFAULT_CAMERA_POS)
-    end, 3)
+    Wait.frames(function() Player[playerColor].lookAt(DEFAULT_CAMERA_POS) end, 3)
   end
 
   -- Updates the card UI to show the appropriate card configuration.
@@ -228,36 +224,30 @@ do
   ---@param playerColor string Player color to create the hook for
   function internal.createCameraHook(playerColor)
     local hookData = {
-      Name = "BlockSquare",
-      Transform = {
-        posX = HOOK_CAMERA_HOME.x,
-        posY = HOOK_CAMERA_HOME.y,
-        posZ = HOOK_CAMERA_HOME.z,
-        rotX = 0,
-        rotY = 270,
-        rotZ = 0,
+      Name         = "BlockSquare",
+      Transform    = {
+        posX   = HOOK_CAMERA_HOME.x,
+        posY   = HOOK_CAMERA_HOME.y,
+        posZ   = HOOK_CAMERA_HOME.z,
+        rotY   = 270,
         scaleX = 0.1,
         scaleY = 0.1,
         scaleZ = 0.1,
       },
-      ColorDiffuse = {
-        r = 0,
-        g = 0,
-        b = 0,
-        a = 0,
-      },
-      Locked = true,
-      GMNotes = playerColor
+      ColorDiffuse = { r = 0, g = 0, b = 0, a = 0, },
+      Locked       = true
     }
 
-    spawnObjectData({ data = hookData, callback_function = internal.onHookCreated })
+    spawnObjectData({
+      data              = hookData,
+      callback_function = function(hook) internal.onHookCreated(hook, playerColor) end
+    })
   end
 
   -- Callback for creation of the camera hook object. Will attach the camera and show the current
   -- (presumably first) card.
   ---@param hook tts__Object Created object
-  function internal.onHookCreated(hook)
-    local playerColor = hook.getGMNotes()
+  function internal.onHookCreated(hook, playerColor)
     tourState[playerColor].cameraHookGuid = hook.getGUID()
     Player[playerColor].attachCameraToObject({
       object = hook,
@@ -273,16 +263,16 @@ do
     -- Make sure the card doesn't exist before we create a new one
     if Global.UI.getAttributes(getUiId(CARD_ID, playerColor)) ~= nil then return end
 
-    tourCardTemplate.attributes.id = getUiId(CARD_ID, playerColor)
-    tourCardTemplate.children[1].attributes.id = getUiId(LEFT_NARRATOR_ID, playerColor)
-    tourCardTemplate.children[2].attributes.id = getUiId(RIGHT_NARRATOR_ID, playerColor)
-    tourCardTemplate.children[3].attributes.id = getUiId(BUBBLE_ID, playerColor)
-    tourCardTemplate.children[4].attributes.id = getUiId(TEXT_ID, playerColor)
-    tourCardTemplate.children[5].attributes.id = getUiId(NEXT_BUTTON_ID, playerColor)
+    tourCardTemplate.attributes.id                  = getUiId(CARD_ID, playerColor)
+    tourCardTemplate.children[1].attributes.id      = getUiId(LEFT_NARRATOR_ID, playerColor)
+    tourCardTemplate.children[2].attributes.id      = getUiId(RIGHT_NARRATOR_ID, playerColor)
+    tourCardTemplate.children[3].attributes.id      = getUiId(BUBBLE_ID, playerColor)
+    tourCardTemplate.children[4].attributes.id      = getUiId(TEXT_ID, playerColor)
+    tourCardTemplate.children[5].attributes.id      = getUiId(NEXT_BUTTON_ID, playerColor)
     tourCardTemplate.children[5].attributes.onClick = self.getGUID() .. "/nextCard"
-    tourCardTemplate.children[6].attributes.id = getUiId(PREVIOUS_BUTTON_ID, playerColor)
+    tourCardTemplate.children[6].attributes.id      = getUiId(PREVIOUS_BUTTON_ID, playerColor)
     tourCardTemplate.children[6].attributes.onClick = self.getGUID() .. "/previousCard"
-    tourCardTemplate.children[7].attributes.id = getUiId(STOP_BUTTON_ID, playerColor)
+    tourCardTemplate.children[7].attributes.id      = getUiId(STOP_BUTTON_ID, playerColor)
     tourCardTemplate.children[7].attributes.onClick = self.getGUID() .. "/stopTour"
     internal.setDeepVisibility(tourCardTemplate, playerColor)
 
@@ -296,7 +286,7 @@ do
   ---@param xmlUi table Lua table describing the XML
   ---@param playerColor string String color of the player to make this visible for
   function internal.setDeepVisibility(xmlUi, playerColor)
-    xmlUi.attributes.visibility = "" .. playerColor
+    xmlUi.attributes.visibility = playerColor
     if xmlUi.children ~= nil then
       for _, child in ipairs(xmlUi.children) do
         internal.setDeepVisibility(child, playerColor)

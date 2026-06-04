@@ -360,12 +360,12 @@ function drawEncounterCard(params)
   if encounterDeckObjects.draw or encounterDeckObjects.topCard then
     reshuffledAlready = false
     if encounterDeckObjects.topCard then
-      actualEncounterCardDraw(encounterDeckObjects.topCard, params)
+      actualEncounterCardDraw(encounterDeckObjects.topCard, params, encounterDeckObjects.draw == nil)
       flipTopCardFromDeck(0.5)
     elseif encounterDeckObjects.draw.type == "Deck" then
-      actualEncounterCardDraw(encounterDeckObjects.draw.takeObject(), params)
+      actualEncounterCardDraw(encounterDeckObjects.draw.takeObject(), params, false)
     else
-      actualEncounterCardDraw(encounterDeckObjects.draw, params)
+      actualEncounterCardDraw(encounterDeckObjects.draw, params, true)
     end
   else
     -- nothing here, time to reshuffle
@@ -385,7 +385,7 @@ function drawEncounterCard(params)
 end
 
 -- draw the provided card to the requesting playermat
-function actualEncounterCardDraw(card, params)
+function actualEncounterCardDraw(card, params, sentReshuffleMessage)
   local metadata = JSON.decode(card.getGMNotes()) or {}
 
   -- draw hidden cards facedown
@@ -396,6 +396,10 @@ function actualEncounterCardDraw(card, params)
 
   local rot = PlayermatApi.returnRotation(params.matColor):setAt("z", faceUpRotation)
   DeckLib.placeOrMergeIntoDeck(card, params.position, rot)
+
+  if sentReshuffleMessage then
+    broadcastToAll("Last encounter card: Reshuffle the encounter deck after resolving it.")
+  end
 end
 
 -- gets the discard pile and shuffles it into the encounter deck

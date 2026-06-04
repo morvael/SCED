@@ -770,6 +770,34 @@ function shiftContents(playerColor, direction)
   Wait.time(drawBaseConnections, 0.1)
 end
 
+-- Rotate all objects on the play area around the middle snap point
+---@param degrees number Degress to rotate counterclockwise
+function rotateContents(degrees)
+  local zone = GUIDReferenceApi.getObjectByOwnerAndType("Mythos", "PlayAreaZone")
+  if not zone then
+    broadcastToAll("Scripting zone couldn't be found.", "Red")
+    return
+  end
+
+  -- perform the actual rotating
+  for _, object in ipairs(zone.getObjects()) do
+    if not object.hasTag("displacement_excluded") then
+      -- rotate the object itself
+      local newRotationY = MathLib.roundToMultiple(object.getRotation().y - degrees, 15)
+      object.setRotation(object.getRotation():setAt("y", newRotationY))
+
+      -- rotate its position around the origin of the playable zone
+      local currentPos = object.getPosition()
+      local localPos   = self.positionToLocal(currentPos) + Vector(0, 0, CENTER_Z)
+      local rotatedPos = localPos:rotateOver("y", -degrees) - Vector(0, 0, CENTER_Z)
+      local newPos     = self.positionToWorld(rotatedPos)
+      object.setPosition(newPos)
+    end
+  end
+
+  Wait.time(drawBaseConnections, 0.1)
+end
+
 -- Sets the image of the playarea
 ---@param newURL string URL for the new surface image
 function updateSurface(newURL)
