@@ -32,11 +32,11 @@ msgstr "Zmienia język elementów interfejsu użytkownika\nnp. tego okna ustawie
 
 # Option: set default difficulty to Hard/Expert
 msgid "OP_defaultHardExpert"
-msgstr "Set difficulty to Hard/Expert"
+msgstr "Zmień poziom trudności na Trudny/Ekspercki"
 
 # Tooltip: set default difficulty to Hard/Expert
 msgid "OP_defaultHardExpert_tooltip"
-msgstr "Set the scenario reference card\nto Hard/Expert by default."
+msgstr "Domyślnie ustawia kartę pomocy scenariusza\nna stronie Trudny/Ekspercki."
 
 # Option: splash scenario name on setup
 msgid "OP_showTitleSplash"
