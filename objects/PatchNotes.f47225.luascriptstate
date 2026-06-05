@@ -85,7 +85,7 @@
       },
       "tooltip": "None",
       "value": [
-        "Arkham Horror LCG SCE 4.7.2 - 04/23/2026"
+        "Arkham Horror LCG SCE 4.8.0 - 06/05/2026"
       ]
     },
     {
@@ -104,7 +104,7 @@
         "g": 1,
         "r": 1
       },
-      "font": "95",
+      "font": "115",
       "locked": false,
       "name": "Details",
       "pos": {
@@ -124,7 +124,7 @@
       },
       "tooltip": "None",
       "value": [
-        "Hotfix 2\n- added missing cards from new investigator packs\n- added investigator tokens from core 2026\n- fixed an issue with wrong sorting by the player card panel\n- fixed an issue with mini card border coloring\n- fixed an issue with detecting cards in set aside areas\n- fixed an issue with some parts of language packs not applying\n\nHotfix 1\n- added all previewed cards\n- added chapter 2 rules documents\n- updated player card panel with better filters\n- updated the \"numpad 0\" hotkey for location connection editing\n- fixed an issue with the encounter deck search assistant\n\nMain Notes\n- added \/ updated cards from taboo list update (FAQ v2.5) and core 2026\n- added cards from revised core set (yes, the one from 5 years ago)\n- added an \"arkham.build indicator\" to the download menu\n- added a game key for the \"Discard One\" function of the playermats\n- updated upkeep function for some special cases\n\n\nThis mod is a fan-made adaptation of Arkham Horror LCG.\nIt is not endorsed by Fantasy Flight Games or Asmodee Digital.\nPlease support the game by purchasing the official product."
+        "Update Notes2\n- added initial support for Blood tokens!\n- added a reminder card for Starting cards.\n- added a reminder to reshuffle the encounter deck\nafter last card is resolved.\n- added option to flip scenario reference card to Hard/Expert by default. \n- encounter deck shuffles automatically upon load\n- all Chapter 2 investigators now have starter decks in the mod\n\n\nThis mod is a fan-made adaptation of Arkham Horror LCG.\nIt is not endorsed by Fantasy Flight Games or Asmodee Digital.\nPlease support the game by purchasing the official product."
       ]
     }
   ],
