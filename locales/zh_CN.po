@@ -595,6 +595,9 @@ msgstr "取走"
 msgid "CARD_TheRedClock_place_text"
 msgstr "放置"
 
+msgid "CARD_StartingReminder_text"
+msgstr "Search Starting Cards"
+
 # Playermat: Option Panel
 msgid "PM_title_text"
 msgstr "选项"

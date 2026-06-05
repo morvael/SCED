@@ -28,7 +28,9 @@ msgstr "Język Interfejsu"
 
 # Tooltip: UI language
 msgid "OP_uiLanguage_tooltip"
-msgstr "Zmienia język elementów interfejsu użytkownika\nnp. tego okna ustawień."
+msgstr ""
+"Zmienia język elementów interfejsu użytkownika\n"
+"np. tego okna ustawień."
 
 # Option: set default difficulty to Hard/Expert
 msgid "OP_defaultHardExpert"
@@ -36,7 +38,9 @@ msgstr "Zmień poziom trudności na Trudny/Ekspercki"
 
 # Tooltip: set default difficulty to Hard/Expert
 msgid "OP_defaultHardExpert_tooltip"
-msgstr "Domyślnie ustawia kartę pomocy scenariusza\nna stronie Trudny/Ekspercki."
+msgstr ""
+"Domyślnie ustawia kartę pomocy scenariusza\n"
+"na stronie Trudny/Ekspercki."
 
 # Option: splash scenario name on setup
 msgid "OP_showTitleSplash"
@@ -44,7 +48,9 @@ msgstr "Pokaż tytuł scenariusza podczas rozkładania"
 
 # Tooltip: splash scenario name on setup
 msgid "OP_showTitleSplash_tooltip"
-msgstr "Wyświetl tytuł scenariusza przez 2 sekundy\npodczas rozkładania scenariusza."
+msgstr ""
+"Wyświetl tytuł scenariusza przez 2 sekundy\n"
+"podczas rozkładania scenariusza."
 
 # Option: splash token on draw
 msgid "OP_showTokenSplash"
@@ -52,7 +58,9 @@ msgstr "Powiększ Żetony Chaosu"
 
 # Tooltip: splash token on draw
 msgid "OP_showTokenSplash_tooltip"
-msgstr "Wyświetl powiększoną wersję żeton(ów)\nprzez chwilę po wylosowaniu."
+msgstr ""
+"Wyświetl powiększoną wersję żeton(ów)\n"
+"przez chwilę po wylosowaniu."
 
 # Option: Enable all card helpers
 msgid "OP_enableCardHelpers"
@@ -60,7 +68,9 @@ msgstr "Wyświetlaj pomoce na kartach"
 
 # Tooltip: Enable all card helpers
 msgid "OP_enableCardHelpers_tooltip"
-msgstr "Wyświetlaj pomoce na kartach (zwykle uruchamiane za pomocą opcji w menu kontekstowym).\nPrzykłady: Fałszywe Przymierze i Księga Żywych Mitów."
+msgstr ""
+"Wyświetlaj pomoce na kartach (zwykle uruchamiane za pomocą opcji w menu kontekstowym).\n"
+"Przykłady: Fałszywe Przymierze i Księga Żywych Mitów."
 
 # Option: Make damage / horror tokens clickable
 msgid "OP_makeDamageHorrorClickable"
@@ -68,7 +78,9 @@ msgstr "Klikalność żetonów obrażeń / przerażenia"
 
 # Tooltip: Make damage / horror tokens clickable
 msgid "OP_makeDamageHorrorClickable_tooltip"
-msgstr "Sprawia, że żetony obrażeń i przerażenia są klikalne\n(oprócz tego obsługuje wpisywanie liczb)."
+msgstr ""
+"Sprawia, że żetony obrażeń i przerażenia są klikalne\n"
+"(oprócz tego obsługuje wpisywanie liczb)."
 
 # Option: Show '1' on damage / horror tokens
 msgid "OP_showOneDamageHorror"
@@ -76,7 +88,9 @@ msgstr "Pokazuj 1 na żetonach obrażeń i przerażenia"
 
 # Tooltip: Show '1' on damage / horror tokens
 msgid "OP_showOneDamageHorror_tooltip"
-msgstr "Zamiast pustych żetonów (tak jak w grze planszowej),\nwyświetla na nich '1'."
+msgstr ""
+"Zamiast pustych żetonów (tak jak w grze planszowej),\n"
+"wyświetla na nich '1'."
 
 # Group: play area settings
 msgid "OP_group_playarea"
@@ -88,7 +102,9 @@ msgstr "Zezwalaj na przyciąganie"
 
 # Tooltip: play area snap tags
 msgid "OP_playAreaSnapTags_tooltip"
-msgstr "Tylko karty oznaczone jako 'Lokalizacja' będą przyciągane (domyślnie dla kart oficjalnych).\nOdznacz tę opcję, jeżeli występują problemy ze scenariuszami fanowskimi."
+msgstr ""
+"Tylko karty oznaczone jako 'Lokalizacja' będą przyciągane (domyślnie dla kart oficjalnych).\n"
+"Odznacz tę opcję, jeżeli występują problemy ze scenariuszami fanowskimi."
 
 # Option: location connections
 msgid "OP_playAreaConnections"
@@ -96,7 +112,9 @@ msgstr "Łącz lokalizacje"
 
 # Tooltip: location connections
 msgid "OP_playAreaConnections_tooltip"
-msgstr "Automatycznie łączy lokalizacje\nna podstawie metadanych kart."
+msgstr ""
+"Automatycznie łączy lokalizacje\n"
+"na podstawie metadanych kart."
 
 # Option: play area connection color
 msgid "OP_playAreaConnectionColor"
@@ -104,7 +122,9 @@ msgstr "Wybierz kolor łączników lokalizacji"
 
 # Tooltip: play area connection color
 msgid "OP_playAreaConnectionColor_tooltip"
-msgstr "W tym kolorze będą linie\nłączące lokalizacje."
+msgstr ""
+"W tym kolorze będą linie\n"
+"łączące lokalizacje."
 
 # Option: change custom playarea image on setup
 msgid "OP_changePlayAreaImage"
@@ -112,7 +132,9 @@ msgstr "Zmień tło podczas rozkładania"
 
 # Tooltip: change custom playarea image on setup
 msgid "OP_changePlayAreaImage_tooltip"
-msgstr "Próbuje ustawić pasujące tło\nużywając galerii obrazów."
+msgstr ""
+"Próbuje ustawić pasujące tło\n"
+"używając galerii obrazów."
 
 # Option: highlight minicards
 msgid "OP_highlightMinicards"
@@ -120,7 +142,9 @@ msgstr "Podświetlaj małe karty"
 
 # Tooltip: highlight minicards
 msgid "OP_highlightMinicards_tooltip"
-msgstr "Podświetla małe karty badaczy w kolorze\nkontrolujących je graczy."
+msgstr ""
+"Podświetla małe karty badaczy w kolorze\n"
+"kontrolujących je graczy."
 
 # Group: playermat settings
 msgid "OP_group_playermat"
@@ -132,7 +156,9 @@ msgstr "Zezwalaj na przyciąganie"
 
 # Tooltip: enable snap tags
 msgid "OP_useSnapTags_tooltip"
-msgstr "Tylko karty oznaczone jako 'Atut' będą przyciągane (domyślnie dla kart oficjalnych).\nOdznacz tę opcję, jeżeli występują problemy ze scenariuszami fanowskimi."
+msgstr ""
+"Tylko karty oznaczone jako 'Atut' będą przyciągane (domyślnie dla kart oficjalnych).\n"
+"Odznacz tę opcję, jeżeli występują problemy ze scenariuszami fanowskimi."
 
 # Option: enable counter logging
 msgid "OP_enableCounterLogging"
@@ -140,7 +166,9 @@ msgstr "Włącz rejestr zdarzeń"
 
 # Tooltip: enable counter logging
 msgid "OP_enableCounterLogging_tooltip"
-msgstr "Zapisuje zmiany liczby obrażeń / przerażenia / zasobów / wskazówek na czacie."
+msgstr ""
+"Zapisuje zmiany liczby obrażeń / przerażenia / zasobów / wskazówek na "
+"czacie."
 
 # Option: show draw 1 button
 msgid "OP_showDrawButton"
@@ -148,7 +176,9 @@ msgstr "Wyświetlaj przycisk \"Dobierz 1\""
 
 # Tooltip: show draw 1 button
 msgid "OP_showDrawButton_tooltip"
-msgstr "Wyświetla przycisk pod przyciskiem 'Utrzymanie', który dobiera kartę z talii.\nPrzydatne do gry w pojedynkę."
+msgstr ""
+"Wyświetla przycisk pod przyciskiem 'Utrzymanie', który dobiera kartę z talii.\n"
+"Przydatne do gry w pojedynkę."
 
 # Option: use class-specific texture
 msgid "OP_useClassTexture"
@@ -156,7 +186,9 @@ msgstr "Używaj grafiki danej klasy"
 
 # Tooltip: use class-specific texture
 msgid "OP_useClassTexture_tooltip"
-msgstr "Zezwala na automatyczne załadowanie grafiki danej klasy postaci\nna planszy gracza."
+msgstr ""
+"Zezwala na automatyczne załadowanie grafiki danej klasy postaci\n"
+"na planszy gracza."
 
 # Option: use clickable clue-counters
 msgid "OP_useClueClickers"
@@ -164,7 +196,9 @@ msgstr "Używaj klikalnych liczników wskazówek"
 
 # Tooltip: use clickable clue-counters
 msgid "OP_useClueClickers_tooltip"
-msgstr "Zamiast automatycznie zliczać wskazówki na planszy gracza,\nwyświetla klikalny licznik wskazówek."
+msgstr ""
+"Zamiast automatycznie zliczać wskazówki na planszy gracza,\n"
+"wyświetla klikalny licznik wskazówek."
 
 # Option: use custom resource token Images
 msgid "OP_useCustomResourceImages"
@@ -172,7 +206,9 @@ msgstr "Używaj dynamicznych żetonów zasobów"
 
 # Tooltip: use custom resource token Images
 msgid "OP_useCustomResourceImages_tooltip"
-msgstr "Używa niestandardowych żetonów nabojów, ładunków, sekretów itp. zamiast domyślnych żetonów zasobów."
+msgstr ""
+"Używa niestandardowych żetonów nabojów, ładunków, sekretów itp. zamiast "
+"domyślnych żetonów zasobów."
 
 # Option: use clickable resource counters
 msgid "OP_useResourceCounters"
@@ -180,7 +216,9 @@ msgstr "Używaj klikalnych żetonów zasobów"
 
 # Tooltip: use clickable resource counters
 msgid "OP_useResourceCounters_tooltip"
-msgstr "Zezwala na pojawienie się klikalnych żetonów zasobów na kartach graczy\n(Specjalne = tylko atuty zaczynające z 0 ładunkami)."
+msgstr ""
+"Zezwala na pojawienie się klikalnych żetonów zasobów na kartach graczy\n"
+"(Specjalne = tylko atuty zaczynające z 0 ładunkami)."
 
 # Dropdown Option: Resource Counters 1
 msgid "OP_useResourceCounters_option1"
@@ -200,7 +238,9 @@ msgstr "Usuń / Umieść planszę gracza"
 
 # Tooltip: remove a playermat
 msgid "OP_removePlayermat_tooltip"
-msgstr "Usuwa nieużywaną planszą gracza dla zwiększenia wolnego miejsca na stole.\nJako opcje dostępne są kolory domyślne."
+msgstr ""
+"Usuwa nieużywaną planszą gracza dla zwiększenia wolnego miejsca na stole.\n"
+"Jako opcje dostępne są kolory domyślne."
 
 # Dropdown Option: Remove Playermat 1
 msgid "OP_removePlayermat_option_select"
@@ -264,7 +304,9 @@ msgstr "Dostosuj układ stołu"
 
 # Tooltip: customize Table Setup
 msgid "OP_customTableSetup_tooltip"
-msgstr "Użyj przycisku, aby stworzyć własny układ stołu\n(używając obecnie wybranego układu jako punktu wyjścia)."
+msgstr ""
+"Użyj przycisku, aby stworzyć własny układ stołu\n"
+"(używając obecnie wybranego układu jako punktu wyjścia)."
 
 # Button: customize Table Setup
 msgid "customTableSetupButton"
@@ -280,7 +322,9 @@ msgstr "Załączniki"
 
 # Tooltip: show attachment helper
 msgid "OP_showAttachmentHelper_tooltip"
-msgstr "Dodaje woreczek z kartami służącymi do łączenia kart z innymi kartami\n(np. Plecak)."
+msgstr ""
+"Dodaje woreczek z kartami służącymi do łączenia kart z innymi kartami\n"
+"(np. Plecak)."
 
 # Option: show CYOA campaign guides
 msgid "OP_showCYOA"
@@ -288,7 +332,9 @@ msgstr "Dedykowane Księgi kampanii"
 
 # Tooltip: show CYOA campaign guides
 msgid "OP_showCYOA_tooltip"
-msgstr "Dodaje zmienione Księgi Kampanii w stylu \n'Stwórz Swoją Własną Przygodę'."
+msgstr ""
+"Dodaje zmienione Księgi Kampanii w stylu \n"
+"'Stwórz Swoją Własną Przygodę'."
 
 # Option: show displacement tool
 msgid "OP_showDisplacementTool"
@@ -296,7 +342,9 @@ msgstr "Narzędzie Przesuwanie"
 
 # Tooltip: show displacement tool
 msgid "OP_showDisplacementTool_tooltip"
-msgstr "Pozwala jednocześnie przesuwać w wybranym kierunku wszystkie obiekty\n na głównym obszarze gry."
+msgstr ""
+"Pozwala jednocześnie przesuwać w wybranym kierunku wszystkie obiekty\n"
+" na głównym obszarze gry."
 
 # Option: show hand helper
 msgid "OP_showHandHelper"
@@ -304,7 +352,9 @@ msgstr "Licznik kart"
 
 # Tooltip: show hand helper
 msgid "OP_showHandHelper_tooltip"
-msgstr "Nie musisz już liczyć kart na ręce! To narzędzie robi to za Ciebie\noraz liczy maksymalną liczbę kart, które możesz posiadać."
+msgstr ""
+"Nie musisz już liczyć kart na ręce! To narzędzie robi to za Ciebie\n"
+"oraz liczy maksymalną liczbę kart, które możesz posiadać."
 
 # Option: show playermat extension
 msgid "OP_showPlayermatExtension"
@@ -312,7 +362,9 @@ msgstr "Przedłużenie planszy gracza"
 
 # Tooltip: show playermat extension
 msgid "OP_showPlayermatExtension_tooltip"
-msgstr "Dodaje woreczek z przedłużeniem planszy gracza\nw formie dodatkowej planszetki."
+msgstr ""
+"Dodaje woreczek z przedłużeniem planszy gracza\n"
+"w formie dodatkowej planszetki."
 
 # Option: show search assistant
 msgid "OP_showSearchAssistant"
@@ -320,7 +372,9 @@ msgstr "Asystent Przeszukiwania"
 
 # Tooltip: show search assistant
 msgid "OP_showSearchAssistant_tooltip"
-msgstr "Wygodnie przeszukaj 3, 6, 9, 12 albo X\nwierzchnich kart Twojej talii!"
+msgstr ""
+"Wygodnie przeszukaj 3, 6, 9, 12 albo X\n"
+"wierzchnich kart Twojej talii!"
 
 # Option: Token Arranger settings
 msgid "OP_tokenArrangerOdds"
@@ -328,7 +382,9 @@ msgstr "Żetony Chaosu: Kalkulator Szans"
 
 # Tooltip: Token Arranger settings
 msgid "OP_tokenArrangerOdds_tooltip"
-msgstr "Określa sposób wyliczania szans wylosowania\ndanego żetonu w sekcji Żetony Chaosu."
+msgstr ""
+"Określa sposób wyliczania szans wylosowania\n"
+"danego żetonu w sekcji Żetony Chaosu."
 
 # Dropdown Option: Token Arranger 1
 msgid "OP_tokenArrangerOdds_no"
@@ -384,20 +440,33 @@ msgid "DW_tab6"
 msgstr "Tłumaczenia"
 
 # Download Window: Buttons
-msgid  "DW_downloadAll"
+msgid "DW_downloadAll"
 msgstr "Pobierz wszystko"
 
-msgid  "DW_downloadAll+tooltip"
-msgstr "Szacunkowy rozmiar: 400 MB danych JSON \noraz 40 GB elementów gry."
+msgid "DW_downloadAll+tooltip"
+msgstr ""
+"Szacunkowy rozmiar: 400 MB danych JSON \n"
+"oraz 40 GB elementów gry."
 
 msgid "DW_close_tooltip"
 msgstr "Zamknij"
 
-msgid  "DW_spawnPlaceholder_button"
+msgid "DW_spawnPlaceholder_button"
 msgstr "Dodaj placeholder"
 
 msgid "DW_download_button"
 msgstr "Pobierz"
+
+msgid "DW_arkhambuild_tooltip"
+msgstr ""
+"arkham.build - linked: This content can be\n"
+"automatically loaded when used in decks."
+
+msgid "DW_scenarios"
+msgstr "Scenarios"
+
+msgid "DW_by"
+msgstr "by"
 
 # Play Area Gallery: Title
 msgid "PAG_title"
@@ -449,13 +518,17 @@ msgid "NO_viewing_angle"
 msgstr "Kąt nachylenia w stopniach:"
 
 msgid "NO_sliderPitch+tooltip"
-msgstr "Kontroluje kąt nachylenia kamery\n('po kliknięciu myszką w panelu')."
+msgstr ""
+"Kontroluje kąt nachylenia kamery\n"
+"('po kliknięciu myszką w panelu')."
 
 msgid "NO_viewing_distance"
 msgstr "Odległość:"
 
 msgid "NO_sliderDistance+tooltip"
-msgstr "Kontroluje odległość kamery\n(od 50% do 200% wartości bazowej)."
+msgstr ""
+"Kontroluje odległość kamery\n"
+"(od 50% do 200% wartości bazowej)."
 
 msgid "NO_claim_white"
 msgstr "Zajmij \"Białe\" miejsce"
@@ -468,6 +541,11 @@ msgstr "Zajmij \"Zielone\" miejsce"
 
 msgid "NO_claim_red"
 msgstr "Zajmij \"Czerwone\" miejsce"
+
+msgid "NO_claim+tooltip"
+msgstr ""
+"Clicking this seat in the Navigation Overlay\n"
+"will now only swap the playercolor for you."
 
 msgid "NO_load_defaults"
 msgstr "Ust. domyślne"
@@ -483,13 +561,18 @@ msgid "CUH_importTrauma"
 msgstr "Wczytaj Traumę"
 
 msgid "CUH_importTrauma_description"
-msgstr "Pozwala wczytać wartość traumy z dziennika kampanii (zawartość fanowska może powodować błędne wartości!).\nWprowadź graczy w dzienniku kampanii w kolejności:\nBiały, Pomarańczowy, Zielony, Czerwony."
+msgstr ""
+"Pozwala wczytać wartość traumy z dziennika kampanii (zawartość fanowska może powodować błędne wartości!).\n"
+"Wprowadź graczy w dzienniku kampanii w kolejności:\n"
+"Biały, Pomarańczowy, Zielony, Czerwony."
 
 msgid "CUH_tidyPlayermats"
 msgstr "Wyczyść plansze graczy"
 
 msgid "CUH_tidyPlayermats_description"
-msgstr "Kontroluje, czy plansze graczy mają zostać wyczyszczone (usuwa wszystkie karty i żetony)."
+msgstr ""
+"Kontroluje, czy plansze graczy mają zostać wyczyszczone (usuwa wszystkie "
+"karty i żetony)."
 
 msgid "CUH_removeDrawnLines"
 msgstr "Usuń narysowane linie"
@@ -498,11 +581,17 @@ msgid "CUH_removeDrawnLines_description"
 msgstr "Kontroluje, czy wszystkie narysowane linie mają zostać usunięte."
 
 # Cards
+msgid "CARD_BorrowedTime_remove_text"
+msgstr "Remove Clicks"
+
+# Cards
 msgid "CARD_DarkHorse_text"
 msgstr "☐ Pomiń zasób"
 
 msgid "CARD_ElleRubash_doom_text"
-msgstr "Umieść Pomijany\nŻeton Zagłady"
+msgstr ""
+"Umieść Pomijany\n"
+"Żeton Zagłady"
 
 msgid "CARD_FamilyInheritance_DiscardAll_text"
 msgstr "Odrzuć"
@@ -521,6 +610,9 @@ msgstr "Weź"
 
 msgid "CARD_TheRedClock_place_text"
 msgstr "Umieść"
+
+msgid "CARD_StartingReminder_text"
+msgstr "Search Starting Cards"
 
 # Playermat: Option Panel
 msgid "PM_title_text"
@@ -596,8 +688,10 @@ msgstr "Nie"
 msgid "PMB_discardMove_button"
 msgstr "Odrzuć / ➜"
 
-msgid "PMB_discardMove_button+tooltip"
-msgstr "Kliknij prawym przyciskiem myszy, aby przenieść do obszaru zagrożenia"
+msgid "PMB_discardMove_button+tooltiptext"
+msgstr ""
+"Right-click to move\n"
+"card to threat area"
 
 msgid "PMB_discard_button"
 msgstr "Odrzuć"
@@ -605,8 +699,8 @@ msgstr "Odrzuć"
 msgid "PMB_discard1_button"
 msgstr "Odrzuć 1"
 
-msgid "PMB_discard1_button+tooltip"
-msgstr "Odrzuca jedną losową kartę z ręki (ukryte karty są pomijane)"
+msgid "PMB_discard1_button+tooltiptext"
+msgstr "Discard one random card from hand (hidden cards are excluded)"
 
 msgid "PMB_draw1_button"
 msgstr "Dobierz 1"
@@ -614,8 +708,8 @@ msgstr "Dobierz 1"
 msgid "PMB_upkeep_button"
 msgstr "Utrzymanie"
 
-msgid "PMB_upkeep_button+tooltip"
-msgstr "Kliknij prawym przyciskiem myszy, aby dobrać kartę, ale pominąć żeton zasobu"
+msgid "PMB_upkeep_button+tooltiptext"
+msgstr "Right-click to skip resource gain and card draw"
 
 # Mythos Area
 msgid "MA_reshuffleEncounterDeck_text"
@@ -753,6 +847,6 @@ msgstr ""
 
 # Play Area
 msgid "PA_readyCards"
-msgstr "Przygotuj Karty na\nObszarze Gry ↺"
-
-
+msgstr ""
+"Przygotuj Karty na\n"
+"Obszarze Gry ↺"

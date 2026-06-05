@@ -166,7 +166,8 @@ msgstr "Включить логирование счётчиков"
 
 # Tooltip: enable counter logging
 msgid "OP_enableCounterLogging_tooltip"
-msgstr "Печатает ручные изменения значений урона / ужаса / ресурсов / улик в чат."
+msgstr ""
+"Печатает ручные изменения значений урона / ужаса / ресурсов / улик в чат."
 
 # Option: show draw 1 button
 msgid "OP_showDrawButton"
@@ -607,6 +608,9 @@ msgstr "Взять"
 
 msgid "CARD_TheRedClock_place_text"
 msgstr "Положить"
+
+msgid "CARD_StartingReminder_text"
+msgstr "Search Starting Cards"
 
 # Playermat: Option Panel
 msgid "PM_title_text"
