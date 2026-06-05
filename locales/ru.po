@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: AHLCG SCE 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-06-27 10:00+0000\n"
-"PO-Revision-Date: 2026-01-23 18:56+0300\n"
+"PO-Revision-Date: 2026-06-05 11:22+0300\n"
 "Last-Translator: Shestel12\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -34,11 +34,13 @@ msgstr ""
 
 # Option: set default difficulty to Hard/Expert
 msgid "OP_defaultHardExpert"
-msgstr "Set difficulty to Hard/Expert"
+msgstr "Установить сложность на Сложный/Эксперт"
 
 # Tooltip: set default difficulty to Hard/Expert
 msgid "OP_defaultHardExpert_tooltip"
-msgstr "Set the scenario reference card\nto Hard/Expert by default."
+msgstr ""
+"Переворачивает карту сценария\n"
+"на Сложный/Эксперт по умолчанию"
 
 # Option: splash scenario name on setup
 msgid "OP_showTitleSplash"
@@ -160,12 +162,12 @@ msgstr ""
 
 # Option: enable counter logging
 msgid "OP_enableCounterLogging"
-msgstr "Enable counter logging"
+msgstr "Включить логирование счётчиков"
 
 # Tooltip: enable counter logging
 msgid "OP_enableCounterLogging_tooltip"
 msgstr ""
-"Print manual changes to damage / horror / resources / clues in the chat."
+"Печатает ручные изменения значений урона / ужаса / ресурсов / улик в чат."
 
 # Option: show draw 1 button
 msgid "OP_showDrawButton"
@@ -456,14 +458,14 @@ msgstr "Загрузить"
 
 msgid "DW_arkhambuild_tooltip"
 msgstr ""
-"arkham.build - linked: This content can be\n"
-"automatically loaded when used in decks."
+"Связано с arkham.build: Этот контент будет\n"
+"автоматически загружен при использовании в колодах."
 
 msgid "DW_scenarios"
-msgstr "Scenarios"
+msgstr "Сценарии"
 
 msgid "DW_by"
-msgstr "by"
+msgstr "от"
 
 # Play Area Gallery: Title
 msgid "PAG_title"
@@ -541,8 +543,8 @@ msgstr "Занять \"Красное\" место"
 
 msgid "NO_claim+tooltip"
 msgstr ""
-"Clicking this seat in the Navigation Overlay\n"
-"will now only swap the playercolor for you."
+"Выбор этого места в Навигационном Оверлее\n"
+"теперь будет менять цвет игрока только для вас."
 
 msgid "NO_load_defaults"
 msgstr "По умолчанию"
@@ -579,7 +581,7 @@ msgstr "Определяет, следует ли удалять все нари
 
 # Cards
 msgid "CARD_BorrowedTime_remove_text"
-msgstr "Remove Clicks"
+msgstr "Убрать Щелчки"
 
 msgid "CARD_DarkHorse_text"
 msgstr "☐ Не получать ресурс"
@@ -606,6 +608,9 @@ msgstr "Взять"
 
 msgid "CARD_TheRedClock_place_text"
 msgstr "Положить"
+
+msgid "CARD_StartingReminder_text"
+msgstr "Search Starting Cards"
 
 # Playermat: Option Panel
 msgid "PM_title_text"

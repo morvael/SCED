@@ -1,0 +1,58 @@
+require("playercards/CardsWithHelper")
+local GUIDReferenceApi = require("core/GUIDReferenceApi")
+local PlayermatApi     = require("playermat/PlayermatApi")
+
+-- intentionally global
+hasXML                 = true
+isHelperEnabled        = false
+
+function updateSave()
+  self.script_state = JSON.encode({ isHelperEnabled = isHelperEnabled })
+end
+
+function onLoad(savedData)
+  if savedData and savedData ~= "" then
+    local loadedData = JSON.decode(savedData)
+    isHelperEnabled  = loadedData.isHelperEnabled
+    if isHelperEnabled then updateDisplay() end
+  end
+end
+
+function searchStartingCards(player)
+  local matColor        = GUIDReferenceApi.getOwnerOfObject(self)
+  local triggeringColor = player.color
+
+  if matColor == "Mythos" then
+    printToColor("This only works for playermats.", triggeringColor, "Red")
+    return
+  end
+
+  local handColor = PlayermatApi.getPlayerColor(matColor)
+
+  local deckAreaObjects = PlayermatApi.getDeckAreaObjects(matColor)
+  if not deckAreaObjects.draw then
+    printToColor("Couldn't find your deck.", triggeringColor, "Red")
+    return
+  end
+
+  local deckData = deckAreaObjects.draw.getData().ContainedObjects
+
+  local count = 0
+  for i = #deckData, 1, -1 do
+    local cardInfo = deckData[i]
+    local md       = JSON.decode(cardInfo.GMNotes) or {}
+    if md.starting then
+      count = count + 1
+      deckAreaObjects.draw.takeObject({ index = i - 1 }).deal(1, handColor)
+      printToColor("Starting: Added " .. cardInfo.Nickname .. " to the hand.", triggeringColor)
+    end
+  end
+
+  if count == 0 then
+    printToColor("Your deck does not contain any starting cards.", triggeringColor, "Orange")
+  elseif count > 1 then
+    broadcastToColor(
+      "Choose one card among the starting cards that were added by this to your hand and return the others to your deck.",
+      triggeringColor, "Green")
+  end
+end

@@ -3,7 +3,7 @@
   "tokenPrecedence": {
     "": [
       0,
-      11
+      12
     ],
     "Auto-fail": [
       -100,
@@ -12,6 +12,10 @@
     "Bless": [
       110,
       8
+    ],
+    "Blood": [
+      -108,
+      11
     ],
     "Cultist": [
       -2,

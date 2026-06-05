@@ -1,0 +1,30 @@
+{
+  "CardID": 1309300,
+  "CustomDeck": {
+    "13093": {
+      "BackIsHidden": true,
+      "BackURL": "https://steamusercontent-a.akamaihd.net/ugc/14400771347621646228/5BCB7D8643D5F7B98FA5A8791E38A0534A0C82EF/",
+      "FaceURL": "https://steamusercontent-a.akamaihd.net/ugc/10392108990233564161/105B06725FDBE73F402F3AF7BC3F867A87F7F5F0/",
+      "NumHeight": 1,
+      "NumWidth": 1,
+      "Type": 0
+    }
+  },
+  "Description": "Fighting the Hunger",
+  "GMNotes_path": "AllPlayerCards.15bb07/ChosenofZburamoarte.13093.gmnotes",
+  "GUID": "13093",
+  "HideWhenFaceDown": false,
+  "LuaScript": "require(\"playercards/cards/ChosenofZburamoarte\")",
+  "Name": "Card",
+  "Nickname": "Chosen of Zburamoarte",
+  "Tags": [
+    "Asset",
+    "PlayerCard"
+  ],
+  "Transform": {
+    "rotY": 270,
+    "scaleX": 1,
+    "scaleY": 1,
+    "scaleZ": 1
+  }
+}

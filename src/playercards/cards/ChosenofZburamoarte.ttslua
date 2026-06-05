@@ -1,0 +1,19 @@
+local ChaosBagApi = require("chaosbag/ChaosBagApi")
+
+VALID_TOKENS      = { ["Blood"] = true }
+INVALID_TOKENS    = {}
+KEEP_OPEN         = true
+MAX_SEALED        = 5
+
+function onLoad2()
+  self.addContextMenuItem("Add 5 Blood", function()
+    local state = ChaosBagApi.getChaosBagState()
+    for i = 1, 5 do
+      table.insert(state, "blood")
+    end
+    ChaosBagApi.setChaosBagState(state)
+    broadcastToAll("Added 5 Blood tokens")
+  end)
+end
+
+require("playercards/CardsThatSealTokens")

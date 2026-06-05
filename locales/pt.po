@@ -38,7 +38,9 @@ msgstr "Set difficulty to Hard/Expert"
 
 # Tooltip: set default difficulty to Hard/Expert
 msgid "OP_defaultHardExpert_tooltip"
-msgstr "Set the scenario reference card\nto Hard/Expert by default."
+msgstr ""
+"Set the scenario reference card\n"
+"to Hard/Expert by default."
 
 # Option: splash scenario name on setup
 msgid "OP_showTitleSplash"
@@ -606,6 +608,9 @@ msgstr "Pegar"
 
 msgid "CARD_TheRedClock_place_text"
 msgstr "Colocar"
+
+msgid "CARD_StartingReminder_text"
+msgstr "Search Starting Cards"
 
 # Playermat: Option Panel
 msgid "PM_title_text"

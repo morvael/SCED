@@ -83,64 +83,64 @@ end
 
 function makeOptionToggles()
   -- common parameters
-  local cParams = {}
+  local cParams          = {}
   cParams.function_owner = self
-  cParams.width = 1750
-  cParams.height = INPUT_FIELD_HEIGHT
-  cParams.position = Vector(0.22, 0.1, -0.102)
-  cParams.scale = { 0.1, 0.1, 0.1 }
-  cParams.font_size = 240
-  cParams.hover_color = { 0.4, 0.6, 0.8 }
-  cParams.color = FIELD_COLOR
+  cParams.width          = 1750
+  cParams.height         = INPUT_FIELD_HEIGHT
+  cParams.position       = Vector(0.22, 0.1, -0.102)
+  cParams.scale          = { 0.1, 0.1, 0.1 }
+  cParams.font_size      = 240
+  cParams.hover_color    = { 0.4, 0.6, 0.8 }
+  cParams.color          = FIELD_COLOR
 
   -- public / private deck
   cParams.click_function = "publishedPrivateChanged"
-  cParams.tooltip =
+  cParams.tooltip        =
   "Published or private deck?\n\nPLEASE USE A PRIVATE DECK IF JUST FOR TTS TO AVOID FLOODING ARKHAMDB PUBLISHED DECK LISTS!\n\nMake sure to enable deck sharing in your account settings.\n\nKeep this on 'Private' for arkham.build."
-  cParams.label = PRIVATE_TOGGLE_LABELS[privateDeck]
+  cParams.label          = PRIVATE_TOGGLE_LABELS[privateDeck]
   self.createButton(cParams)
 
   -- load upgraded?
   cParams.click_function = "loadUpgradedChanged"
-  cParams.position.z = -0.01
-  cParams.tooltip = "Load newest upgrade or exact deck?"
-  cParams.label = UPGRADED_TOGGLE_LABELS[loadNewestDeck]
+  cParams.position.z     = -0.01
+  cParams.tooltip        = "Load newest upgrade or exact deck?"
+  cParams.label          = UPGRADED_TOGGLE_LABELS[loadNewestDeck]
   self.createButton(cParams)
 
   -- standalone mode?
   cParams.click_function = "standaloneChanged"
-  cParams.position.z = 0.081
-  cParams.tooltip =
+  cParams.position.z     = 0.081
+  cParams.tooltip        =
   "Are you playing standalone mode? Enabling this will make all 'Campaign Only' weaknesses ineligible when determining the random basic weakness(es)."
-  cParams.label = STANDALONE_TOGGLE_LABELS[standalone]
+  cParams.label          = STANDALONE_TOGGLE_LABELS[standalone]
   self.createButton(cParams)
 end
 
 -- Create the four deck ID entry fields
 function makeDeckIdFields()
-  local iParams = {}
+  local iParams          = {}
   iParams.function_owner = self
-  iParams.scale = { 0.1, 0.1, 0.1 }
-  iParams.width = INPUT_FIELD_WIDTH
-  iParams.height = INPUT_FIELD_HEIGHT
-  iParams.font_size = 320
-  iParams.tooltip =
+  iParams.scale          = { 0.1, 0.1, 0.1 }
+  iParams.width          = INPUT_FIELD_WIDTH
+  iParams.height         = INPUT_FIELD_HEIGHT
+  iParams.font_size      = 320
+  iParams.tooltip        =
   "Deck ID from ArkhamDB URL of the deck\nPublished URL: 'https://WebInterface.com/decklist/view/101/knowledge-overwhelming-solo-deck-1.0' = '101'\nPrivate URL: 'https://WebInterface.com/deck/view/102' = '102'\n\nAlso supports the deck ID from shared decks from arkham.build!"
-  iParams.alignment = 3 -- Center
-  iParams.color = FIELD_COLOR
-  iParams.font_color = { 0, 0, 0 }
-  iParams.validation = 4 -- alphanumeric (to support arkham.build IDs)
+  iParams.alignment      = 3 -- Center
+  iParams.color          = FIELD_COLOR
+  iParams.font_color     = { 0, 0, 0 }
+  iParams.validation     = 4 -- alphanumeric (to support arkham.build IDs)
 
   -- Green
   iParams.input_function = "greenDeckChanged"
-  iParams.position = { -0.16, 0.1, 0.385 }
-  iParams.value = greenDeckId
+  iParams.position       = { -0.16, 0.1, 0.385 }
+  iParams.value          = greenDeckId
   self.createInput(iParams)
 
   -- Red
   iParams.input_function = "redDeckChanged"
-  iParams.position = { 0.165, 0.1, 0.385 }
-  iParams.value = redDeckId
+  iParams.position       = { 0.165, 0.1, 0.385 }
+  iParams.value          = redDeckId
   self.createInput(iParams)
 
   -- White
@@ -151,21 +151,21 @@ function makeDeckIdFields()
 
   -- Orange
   iParams.input_function = "orangeDeckChanged"
-  iParams.position = { 0.165, 0.1, 0.474 }
-  iParams.value = orangeDeckId
+  iParams.position       = { 0.165, 0.1, 0.474 }
+  iParams.value          = orangeDeckId
   self.createInput(iParams)
 end
 
 -- Create the Build All button. This is a transparent button which covers the Build All portion of the background graphic
 function makeBuildButton()
-  local buttonParameters = {}
+  local buttonParameters          = {}
   buttonParameters.click_function = "loadDecks"
   buttonParameters.function_owner = self
-  buttonParameters.position = { 0, 0.1, 0.71 }
-  buttonParameters.width = 320
-  buttonParameters.height = 30
-  buttonParameters.color = { 0, 0, 0, 0 }
-  buttonParameters.tooltip = "Click to build all four decks!"
+  buttonParameters.position       = { 0, 0.1, 0.71 }
+  buttonParameters.width          = 320
+  buttonParameters.height         = 30
+  buttonParameters.color          = { 0, 0, 0, 0 }
+  buttonParameters.tooltip        = "Click to build all four decks!"
   self.createButton(buttonParameters)
 end
 
@@ -321,6 +321,8 @@ function loadCards(slots, investigatorId, bondedList, deckMeta, playerColor, loa
     end
   end
 
+  -- loop through card list
+  local shouldAddStartingReminder = false
   for cardId, cardCount in pairs(slots) do
     local card = AllCardsBagApi.getCardById(cardId)
     if card ~= nil then
@@ -339,9 +341,24 @@ function loadCards(slots, investigatorId, bondedList, deckMeta, playerColor, loa
       end
 
       slots[cardId] = 0
+
+      -- look for starting cards
+      if card.metadata.starting then
+        shouldAddStartingReminder = true
+      end
     end
 
     resourceModifier = resourceModifier + cardCount * getStartingResourceModifier(cardId)
+  end
+
+  -- maybe add starting reminder
+  if shouldAddStartingReminder then
+    local card = AllCardsBagApi.getCardById("starting")
+    table.insert(cardsToSpawn, {
+      data     = card.data,
+      metadata = card.metadata,
+      zone     = startsInPlayTracker()
+    })
   end
 
   updateStartingResources(playerColor, resourceModifier)
@@ -767,7 +784,6 @@ function getBaseId(id)
 
   return baseId
 end
-
 
 function moveListOfCardsFromDeck(cardsToSpawn, moveList, targetZone)
   -- Create a frequency map

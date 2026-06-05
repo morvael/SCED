@@ -1327,6 +1327,8 @@ function tokenSplash(matColor)
             modifier = 2
           elseif tokenName == "Frost" then
             modifier = -1
+          elseif tokenName == "Blood" then
+            modifier = -1
           else
             modifier = TokenArrangerApi.getCurrentModifier(tokenName) or TokenArrangerApi.getCurrentModifier("")
           end
@@ -1436,7 +1438,7 @@ function luckyPenny(_, tokenGUID)
   end
 
   local pos = blurseToken.getPosition() + Vector(1.35, 0.1, 0)
-  local id = blurseToken.memo:lower()
+  local id  = blurseToken.memo:lower()
   local url = ID_URL_MAP[id].url or ""
 
   if url ~= "" then
@@ -1760,9 +1762,9 @@ end
 function removeChaosToken(id)
   if not canTouchChaosTokens() then return end
 
-  local tokens = {}
+  local tokens   = {}
   local chaosBag = findChaosBag()
-  local name = ID_URL_MAP[id].name
+  local name     = ID_URL_MAP[id].name
 
   for _, v in ipairs(chaosBag.getObjects()) do
     if v.name == name then table.insert(tokens, v.guid) end
@@ -1775,8 +1777,8 @@ function removeChaosToken(id)
   end
 
   chaosBag.takeObject({
-    guid = tokens[1],
-    smooth = false,
+    guid              = tokens[1],
+    smooth            = false,
     callback_function = function(obj)
       obj.destruct()
       TokenArrangerApi.layout()

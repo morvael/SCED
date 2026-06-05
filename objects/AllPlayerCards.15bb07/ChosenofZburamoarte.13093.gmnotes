@@ -1,0 +1,10 @@
+{
+  "id": "13093",
+  "type": "Asset",
+  "class": "Neutral",
+  "traits": "Condition. Blight.",
+  "level": 0,
+  "permanent": true,
+  "startsInPlay": true,
+  "cycle": "Children of Blood"
+}

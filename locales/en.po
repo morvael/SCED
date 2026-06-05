@@ -537,6 +537,9 @@ msgstr "Take"
 msgid "CARD_TheRedClock_place_text"
 msgstr "Place"
 
+msgid "CARD_StartingReminder_text"
+msgstr "Search Starting Cards"
+
 # Playermat: Option Panel
 msgid "PM_title_text"
 msgstr "Options"

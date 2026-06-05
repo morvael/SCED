@@ -38,7 +38,9 @@ msgstr "Schwierigkeit: Hart/Experte"
 
 # Tooltip: set default difficulty to Hard/Expert
 msgid "OP_defaultHardExpert_tooltip"
-msgstr "Dreht die Szenario-Referenzkarte standardmäßig\nauf die Hart/Experte-Seite."
+msgstr ""
+"Dreht die Szenario-Referenzkarte standardmäßig\n"
+"auf die Hart/Experte-Seite."
 
 # Option: splash scenario name on setup
 msgid "OP_showTitleSplash"
@@ -613,6 +615,9 @@ msgstr "Nehmen"
 
 msgid "CARD_TheRedClock_place_text"
 msgstr "+ 1"
+
+msgid "CARD_StartingReminder_text"
+msgstr "Finde Startende Karten"
 
 # Playermat: Option Panel
 msgid "PM_title_text"

@@ -172,7 +172,7 @@ function sealToken(name, playerColor)
     if obj.name == name then
       local token = chaosbag.takeObject({
         position = self.getPosition() + Vector(0, 0.5 + 0.1 * #sealedTokens, 0),
-        rotation = self.getRotation(),
+        rotation = self.getRotation():setAt("z", 0),
         index    = i - 1,
         smooth   = false
       })

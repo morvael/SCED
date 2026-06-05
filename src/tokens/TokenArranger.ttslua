@@ -151,7 +151,8 @@ function loadDefaultValues()
     ["Bless"]       = {  110,  8 },
     ["Curse"]       = { -110,  9 },
     ["Frost"]       = { -105, 10 },
-    [""]            = {    0, 11 }
+    ["Blood"]       = { -108, 11 },
+    [""]            = {    0, 12 }
   }
   updateSave()
 end

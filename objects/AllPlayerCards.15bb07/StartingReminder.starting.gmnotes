@@ -1,0 +1,8 @@
+{
+  "id": "starting",
+  "type": "Asset",
+  "class": "Neutral",
+  "traits": "Talent.",
+  "permanent": true,
+  "startsInPlay": true
+}
