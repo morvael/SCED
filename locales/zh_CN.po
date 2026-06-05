@@ -34,11 +34,11 @@ msgstr ""
 
 # Option: set default difficulty to Hard/Expert
 msgid "OP_defaultHardExpert"
-msgstr "Set difficulty to Hard/Expert"
+msgstr "将难度设置为困难/专家"
 
 # Tooltip: set default difficulty to Hard/Expert
 msgid "OP_defaultHardExpert_tooltip"
-msgstr "Set the scenario reference card\nto Hard/Expert by default."
+msgstr "默认将冒险参考卡设置为困难/专家。"
 
 # Option: splash scenario name on setup
 msgid "OP_showTitleSplash"
