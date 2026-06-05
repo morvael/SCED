@@ -1,0 +1,17 @@
+<Button active="false"
+  id="Helper"
+  height="250"
+  width="1400"
+  rotation="0 0 180"
+  scale="0.1 0.1 1"
+  position="0 123 -40"
+  padding="50"
+  onClick="searchStartingCards"
+  color="#377a0080">
+  <Text id="CARD_StartingReminder_text"
+    text="Search Starting Cards"
+    font="font_teutonic-arkham"
+    color="White"
+    resizeTextForBestFit="true"
+    resizeTextMaxSize="500"/>
+</Button>
