@@ -104,7 +104,7 @@
         "g": 1,
         "r": 1
       },
-      "font": "115",
+      "font": "117",
       "locked": false,
       "name": "Details",
       "pos": {
@@ -124,7 +124,7 @@
       },
       "tooltip": "None",
       "value": [
-        "Update Notes2\n- added initial support for Blood tokens!\n- added a reminder card for Starting cards.\n- added a reminder to reshuffle the encounter deck\nafter last card is resolved.\n- added option to flip scenario reference card to Hard/Expert by default. \n- encounter deck shuffles automatically upon load\n- all Chapter 2 investigators now have starter decks in the mod\n\n\nThis mod is a fan-made adaptation of Arkham Horror LCG.\nIt is not endorsed by Fantasy Flight Games or Asmodee Digital.\nPlease support the game by purchasing the official product."
+        "Update Notes\n- added initial support for Blood tokens!\n- added a reminder card for Starting cards\n- added a reminder to reshuffle the encounter deck\nafter the last card is resolved\n- added option to flip scenario reference card to Hard/Expert by default\n- encounter deck shuffles automatically upon scenario placement\n- added missing starter decks for all Chapter 2 investigators\n\n\nThis mod is a fan-made adaptation of Arkham Horror LCG.\nIt is not endorsed by Fantasy Flight Games or Asmodee Digital.\nPlease support the game by purchasing the official product."
       ]
     }
   ],
