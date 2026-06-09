@@ -90,6 +90,16 @@ OPTION_PRESETS           = {
     skipTour             = true,
     tokenArrangerOdds    = "Full",
     showPlayermatExtension = true,
+  },
+  elderlyman = {
+    showHandHelper       = true,
+    showSearchAssistant  = true,
+    showTokenSplash      = true,
+    skipTour             = true,
+    tokenArrangerOdds    = "Cumulative",
+    useClueClickers      = true,
+    useResourceCounters  = "enabled",
+    tableSetup           = "Rotated (2P)",
   }
 }
 
