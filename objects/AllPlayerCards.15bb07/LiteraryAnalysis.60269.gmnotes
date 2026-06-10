@@ -4,7 +4,7 @@
   "class": "Seeker",
   "level": 0,
   "traits": "Practiced.",
-  "agilityIcons": 2,
+  "intellectIcons": 2,
   "uses": [
     {
       "count": 1,
