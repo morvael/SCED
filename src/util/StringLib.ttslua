@@ -23,7 +23,7 @@ do
     return newStr
   end
 
-  -- capitalizes the first letter
+  -- Capitalizes the first letter
   function StringLib.toTitleCase(str)
     if not str or str == "" then return "" end
 
@@ -51,10 +51,16 @@ do
     end))
   end
 
-  -- removes leading and trailing whitespace
+  -- Removes leading and trailing whitespace
   function StringLib.trim(str)
     if not str or str == "" then return "" end
-    return str:match("^%s*(.-)%s*$")
+
+    -- Find the index of the first non-whitespace character
+    local startPos = str:find("%S")
+    if not startPos then return "" end
+
+    -- Match from startPos up to the very last non-whitespace character
+    return str:match(".*%S", startPos)
   end
 
   return StringLib
