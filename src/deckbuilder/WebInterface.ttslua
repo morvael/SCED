@@ -2,11 +2,11 @@ do
   local AllCardsBagApi     = require("playercards/AllCardsBagApi")
   local GlobalApi          = require("Global/GlobalApi")
   local PlayAreaApi        = require("playarea/PlayAreaApi")
+  local TabooList          = require("deckbuilder/TabooList")
   local WebRequestLib      = require("util/WebRequestLib")
 
   local WebInterface       = {}
 
-  local tabooList          = {}
   local configuration
   local RANDOM_WEAKNESS_ID = "01000"
 
@@ -236,10 +236,10 @@ do
   -- Check the deck for cards on its taboo list. If they're found, replace the entry in the slot with the Taboo id (i.e. "XXXX" becomes "XXXX-t")
   ---@param tabooId string The deck's taboo ID, taken from the deck response taboo_id field. May be nil, indicating that no taboo list should be used
   local function checkTaboos(tabooId, slots, deckMeta, playerColor)
-    if not tabooId or not tabooList[tabooId] then return end
+    if not tabooId or not TabooList[tabooId] then return end
 
     -- handle regular deck
-    for cardId, _ in pairs(tabooList[tabooId].cards) do
+    for cardId, _ in pairs(TabooList[tabooId].cards) do
       if slots[cardId] ~= nil then
         -- Make sure there's a taboo version of the card before we replace it
         -- SCED only maintains the most recent taboo cards. If a deck is using
@@ -393,25 +393,6 @@ do
   -- Sets up the ArkhamDb interface. Should be called from the parent object on load.
   function WebInterface.initialize()
     configuration = getConfiguration()
-
-    WebRequestLib.get(configuration.taboo_api_uri, function(responseText)
-      local json = JSON.decode(fixUtf16String(responseText))
-      if json and json.data and json.data.taboo_set then
-        for _, taboo in ipairs(json.data.taboo_set) do
-          local cards = {}
-
-          for _, card in ipairs(taboo.cards) do
-            cards[card.code] = true
-          end
-
-          tabooList[taboo.id] = {
-            date  = taboo.date,
-            name  = taboo.name,
-            cards = cards
-          }
-        end
-      end
-    end)
   end
 
   -- Start the deck build process for the given player color and deck ID.
