@@ -125,7 +125,7 @@ function makeDeckIdFields()
   iParams.height         = INPUT_FIELD_HEIGHT
   iParams.font_size      = 320
   iParams.tooltip        =
-  "Deck ID from ArkhamDB URL of the deck\nPublished URL: 'https://WebInterface.com/decklist/view/101/knowledge-overwhelming-solo-deck-1.0' = '101'\nPrivate URL: 'https://WebInterface.com/deck/view/102' = '102'\n\nAlso supports the deck ID from shared decks from arkham.build!"
+  "Deck ID from ArkhamDB URL of the deck\nPublished URL: 'https://arkhamdb.com/decklist/view/101/knowledge-overwhelming-solo-deck-1.0' = '101'\nPrivate URL: 'https://arkhamdb.com/deck/view/102' = '102'\n\nAlso supports the deck ID from shared decks from arkham.build!"
   iParams.alignment      = 3 -- Center
   iParams.color          = FIELD_COLOR
   iParams.font_color     = { 0, 0, 0 }
