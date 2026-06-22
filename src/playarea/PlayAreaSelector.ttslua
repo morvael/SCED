@@ -199,6 +199,6 @@ function maybeUpdatePlayAreaImage(scenarioId)
   -- get a random entry from the eligible list
   local newImageIndex = math.random(#listOfEligibleImages)
 
-  -- wait a short time to avoid double-firing of collision events in rapid succession
-  Wait.time(function() PlayAreaApi.updateSurface(listOfEligibleImages[newImageIndex]) end, 2)
+  -- apply the background change
+  PlayAreaApi.updateSurface(listOfEligibleImages[newImageIndex])
 end
