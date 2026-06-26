@@ -95,10 +95,10 @@ function buttonClick(index, isRightClick)
 
     -- spawn token (only 8 frost tokens / 12 blood tokens allowed)
     if tokenId == "frost" and #tokens == 8 then
-      printToAll("The maximum of 8 Frost tokens is already in the bag.", "Yellow")
+      printToAll("The maximum number of Frost tokens (8) has already been reached.", "Yellow")
       return
     elseif tokenId == "blood" and #tokens == 12 then
-      printToAll("The maximum of 12 Blood tokens is already in the bag.", "Yellow")
+      printToAll("The maximum number of Blood tokens (12) has already been reached.", "Yellow")
       return
     end
 
