@@ -733,6 +733,12 @@ function onObjectSpawn(obj)
     Wait.time(function() i18n.updateObjectUiLanguage(obj) end, 1)
   end
 
+  if obj.hasTag("ShuffleMe") then
+    obj.shuffle()
+    obj.removeTag("ShuffleMe")
+    printToAll(obj.getName() .. " was shuffled.")
+  end
+
   maybeAddDecalToChaosToken(obj)
   maybeDrawBorderAroundMinicard(obj)
   maybeMoveObjectToMythosArea(obj)
