@@ -394,8 +394,8 @@ function loadCards(slots, investigatorId, bondedList, deckMeta, playerColor, loa
 
   -- Spawn the list for each zone
   for zone, zoneCards in pairs(zoneDecks) do
-    local deckPos = Zones.getZonePosition(playerColor, zone):setAt("y", 3)
-    local deckRot = Zones.getDefaultCardRotation(playerColor, zone)
+    local deckPos  = Zones.getZonePosition(playerColor, zone):setAt("y", 3)
+    local deckRot  = Zones.getDefaultCardRotation(playerColor, zone)
     local callback = nil
 
     -- if this is a zone with attachments, spawn cards facedown and add additional delay
@@ -430,7 +430,7 @@ function loadCards(slots, investigatorId, bondedList, deckMeta, playerColor, loa
   for cardId, remainingCount in pairs(slots) do
     if remainingCount > 0 then
       hadError = true
-      WebInterface.logCardNotFound(cardId, playerColor)
+      printToAll("Card not found in index, ID: " .. cardId, playerColor)
     end
   end
 

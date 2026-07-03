@@ -9,7 +9,17 @@ do
   function WebRequestLib.get(uri, onSuccess, onError)
     -- Format URI if it's a table (e.g., {"api", "data"} -> "api/data")
     if type(uri) == "table" then
-      uri = table.concat(uri, "/")
+      local lastIdx  = #uri
+      local lastItem = uri[lastIdx]
+
+      -- Check if the last item starts with "?"
+      if string.sub(lastItem, 1, 1) == "?" then
+        -- Remove the last item temporarily, join the rest, then append it back without a slash
+        table.remove(uri, lastIdx)
+        uri = table.concat(uri, "/") .. lastItem
+      else
+        uri = table.concat(uri, "/")
+      end
     end
 
     WebRequest.get(uri, function(requestInstance)
@@ -20,11 +30,9 @@ do
           onError(errorMessage)
         end
       elseif requestInstance.response_code and requestInstance.response_code >= 400 then
-        -- HTTP error (4xx or 5xx status codes)
-        local errorMessage = "HTTP Error " ..
-        requestInstance.response_code .. ": " .. (requestInstance.text or "No error message provided.")
+        -- 4xx or 5xx status codes
         if onError then
-          onError(errorMessage, requestInstance.response_code)
+          onError(requestInstance.text, requestInstance.response_code)
         end
       else
         -- Successful request (2xx or 3xx status codes)
