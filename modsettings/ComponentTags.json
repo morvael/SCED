@@ -1,6 +1,22 @@
 {
   "labels": [
     {
+      "displayed": "White",
+      "normalized": "white"
+    },
+    {
+      "displayed": "Orange",
+      "normalized": "orange"
+    },
+    {
+      "displayed": "Green",
+      "normalized": "green"
+    },
+    {
+      "displayed": "Red",
+      "normalized": "red"
+    },
+    {
       "displayed": "import_configuration_provider",
       "normalized": "import_configuration_provider"
     },
